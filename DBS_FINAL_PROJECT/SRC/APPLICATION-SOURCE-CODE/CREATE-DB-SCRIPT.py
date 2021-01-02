@@ -30,6 +30,5 @@ def connect_to_db():
     except:
         cnx.rollback()
 
-
     cursor.close()
     cnx.close()
