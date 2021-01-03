@@ -1,8 +1,10 @@
 
 <--! I just put it here if we need it in the future-->
 
-<input name = "country" list = "countries" placeholder = "country">
-<datalist id = "countries">
-  {% for country in countries %}
-  <option value = "{{ country }}" >
-  {% endfor %}
+<div class="form-group">
+  <select class = "form-control" name = "country">
+    {% for country in countries %}
+      <option value = "{{ country }}" > {{countries.country}} </option>
+    {% endfor %}
+  </select>
+</div>
