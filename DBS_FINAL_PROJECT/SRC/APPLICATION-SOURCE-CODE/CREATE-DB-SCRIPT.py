@@ -5,22 +5,20 @@ from datetime import datetime
 import queries
 
 
-def connect_to_db(query,args=None):
+def connect_to_db():
     """
-    connects to the database, execute the query and return an iterator.
+    connects to the database, execute the query and return cnx.
 
-    keyword arguments:
-    query -- the query we want to execute
-    args -- additional arguments
+    cnx is a connection object
     """
 
     # The Database login details
     config = {
         'user': 'DbMysql08',
         'password': 'DbMysql08',
-        'host': 'mysqlsrv1.cs.tau.ac.il',       #use 'localhost' or '127.0.0.1' if running from home
+        'host': '127.0.0.1',       #use 'localhost' or '127.0.0.1' if running from home
         'database': 'DbMysql08',
-        'port': 3306,                           #use your forward if running from home
+        'port': 3305,                           #use your forward if running from home
         'raise_on_warnings': True,
     }
 
@@ -34,12 +32,28 @@ def connect_to_db(query,args=None):
         else:
             print(err)
 
+    return cnx.cursor(buffered=True)
+
+
+
+def Insert_Query(query,values):
+    """
+    make a connection to the db, execute an insert query return success
+
+    keyword arguments:
+        query -- the query to execute
+        values -- values for the query
+
+"""
+    cnx = connect_to_db()
     cur = cnx.cursor(buffered=True)
     try:
-        cur.execute()
-        cnx.commit()
-    except:
+        cur.execute(query)
+    except :
         cnx.rollback()
+        print("Error")
 
-    cursor.close()
+    cnx.commit()
+    cur.close()
     cnx.close()
+    return
