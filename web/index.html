@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>THE CREW BUiLDER</title>
+  </head>
+  <body>
+  
+	  <div class="topnav" id="myTopnav"> <!menu bar>
+		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		  <link rel="stylesheet" href = "style.css">
+			<h1 style="color:white; text-align:center; font-family:algerian; font-size:50px; background-color:black;"> 
+				CREW-MAKE(R) </h1>
+			<h2 style="font-family:bradley hand ITC; text-align:center; color:white;">
+				Temporarily Request Page - just for testing it can be modified later</h2>
+			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+			<i class="fa fa-bars"></i>
+			<a href="home.html">Home</a>
+			<a href="index.html"  class="active">Request</a>
+			<a href="#contact">Crew List</a>
+			<a href="about.html">About</a>
+			</a>
+	   </div>
+	 <script>
+	function myFunction() {
+	  var x = document.getElementById("myTopnav");
+	  if (x.className === "topnav") {
+		x.className += " responsive";
+	  } else {
+		x.className = "topnav";
+	  }
+	}
+	</script>
+	
+    <div>
+	<link rel="stylesheet" type="text/css" href = "style2.css">
+      <div class = center>
+	  <br></br>
+        <a class = btn2 href="{{url_for('q1') }}" >Build the crew from your favorite movies </a>
+        <a class = btn2 href="countries.html" >Build the crew by country </a>
+        <a class = btn2 href="{{url_for('q3') }}" >Build the crew by somthing else </a>
+        <a class = btn2 href="{{url_for('q4') }}" > 4 Build the crew by another things</a>
+        <a class = btn2 href="{{url_for('q5') }}" >5 </a>
+        <a class = btn2 href="{{url_for('q6') }}" >6 </a>
+      </div>
+    </div>
+  </body>
+
+</html>
