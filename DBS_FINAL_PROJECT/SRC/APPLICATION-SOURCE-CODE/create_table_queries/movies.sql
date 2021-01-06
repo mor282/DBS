@@ -11,6 +11,7 @@ CREATE  TABLE DbMysql08.movies(
 			'Documentary','Drama','Family','Fantasy','History','Horror',
 			'Romance','Science Fiction','TV Movie','Thriller','War',
 			'Western')NOT NULL ,
+  `overview` MEDIUMTEXT NOT NULL ,
   PRIMARY KEY (`movie_id`) ,
   UNIQUE INDEX `movie_id_UNIQUE` (`movie_id` ASC) ,
   UNIQUE INDEX `title_UNIQUE` (`title` ASC) ,
