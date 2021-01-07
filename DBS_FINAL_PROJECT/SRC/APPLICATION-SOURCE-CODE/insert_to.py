@@ -159,10 +159,11 @@ def init_movies():
 
             m_overview = (m_curr_row.split(",overview:")[1]).split(',popularity:')[0]
 
-            # print(("id {} , tit {} , bud {} , rev {} , run {} , "
-            #        "lan {} , pos {} , rel {} , gen {} , ove {}").format(
-            #                                     m_id, m_title, m_budget, m_revenue, m_runtime, m_language,
-            #                                     m_poster_link, m_release_year, m_genre, m_overview))
+            # will be changed to movie insert
+            print(("id {} , tit {} , bud {} , rev {} , run {} , "
+                   "lan {} , pos {} , rel {} , gen {} , ove {}").format(
+                                                m_id, m_title, m_budget, m_revenue, m_runtime, m_language,
+                                                m_poster_link, m_release_year, m_genre, m_overview))
 
             # locations related data
             l_url = "https://api.themoviedb.org/3/movie/{}?api_key=a48ba1f202cb5cd5e619e2f5e041b34a".format(m_id)
@@ -174,6 +175,7 @@ def init_movies():
             l_country_amt = len(l_countries.split('{')) - 1
             for j in range(1, l_country_amt + 1):
                 l_curr_country = l_countries.split("{")[j].split(",name:")[1].split("}")[0]
+                # will be changed to locations insert
                 print(m_id, l_curr_country)
 
 
