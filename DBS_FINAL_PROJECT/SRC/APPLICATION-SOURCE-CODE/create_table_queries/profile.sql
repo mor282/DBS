@@ -5,7 +5,7 @@ CREATE  TABLE DbMysql08.profile (
   `age` TINYINT NOT NULL ,
   `main_department` CHAR(20) NOT NULL ,
   `popularity` FLOAT NOT NULL ,
-  `biography` TEXT NULL ,
+  `biography` TEXT,
   `photo_link` TEXT NULL ,
   PRIMARY KEY (`profile_id`) ,
   UNIQUE INDEX `id_UNIQUE` (`profile_id` ASC),
