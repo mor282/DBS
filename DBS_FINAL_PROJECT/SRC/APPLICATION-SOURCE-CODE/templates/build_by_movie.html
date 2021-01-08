@@ -4,30 +4,49 @@
     <meta charset="UTF-8">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 
+    <link rel="stylesheet" type="text/css" href = "../static/style.css">
+    <link rel="stylesheet" type="text/css" href = "../static/style2.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href = "../static/style.css">
     <title>CrewMake</title>
   </head>
   <body>
     <div class="topnav" id="myTopnav"> <!menu bar>
-    <h1 style="color:white; text-align:center; font-family:algerian; font-size:50px; background-color:black;">
-    	CREW-MAKE(R) </h1>
-    <h2 style="font-family:bradley hand ITC; text-align:center; color:white;">
-    	Temporarily Home Page - just for testing it can be modified later</h2>
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars"></i>
-      <a href="home.html" class="active">Home</a>
-      <a href="{{url_for('index') }}">Request</a>
-      <a href="#contact">Crew List</a>
-      <a href="about.html">About</a>
-      </a>
+      <h1 style="color:white; text-align:center; font-family:algerian; font-size:50px; background-color:black;">
+    	   CREW-MAKE(R) </h1>
+         <h2 style="font-family:bradley hand ITC; text-align:center; color:white;">
+    	      Temporarily Home Page - just for testing it can be modified later</h2>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            <a href="home.html" class="active">Home</a>
+            <a href="{{url_for('index') }}">Request</a>
+            <a href="#contact">Crew List</a>
+            <a href="about.html">About</a>
+            </a>
     </div>
-    <div>
-      <link rel="stylesheet" type="text/css" href = "../static/style2.css">
-      <h1> q1</h1>
 
+    <div class = "container">
+      <form>
+        <div class="form-group row">
+          <div class="col-xs-4">
+            <label for "roleselect" > Select a role from the list: </label>
+            <select class = "form-control" id="roleselect" name = "role">
+              {% for r in roles %}
+                <option value = "{{ r.role }}" > {{r.role}} </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-xs-4">
+            <label for "movie_sel" > Select a movie from the list: </label>
+            <select class = "form-control" id="movie_sel" name = "movie">
+              {% for movie in movies_lst %}
+                <option value = "{{ movie.movie_id }}" > {{movie.title}} </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </form>
     </div>
   </body>
 </html>

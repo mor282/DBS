@@ -28,4 +28,5 @@ def connect_to_db():
         else:
             print(err)
 
-    return cnx.cursor(buffered=True)
+    cur = cnx.cursor(buffered = True)
+    return cnx,cur
