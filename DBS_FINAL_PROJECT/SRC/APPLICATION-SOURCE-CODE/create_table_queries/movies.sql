@@ -3,7 +3,7 @@ CREATE  TABLE DbMysql08.movies(
   `title` CHAR(209) NOT NULL ,
   `budget` INT UNSIGNED NOT NULL ,
   `revenue` BIGINT UNSIGNED NOT NULL ,
-  `runtime` TIME NOT NULL ,
+  `runtime` MEDIUMINT NOT NULL ,
   `language` TINYTEXT NOT NULL ,
   `poster_link` TEXT NULL ,
   `release_year` YEAR NOT NULL ,
