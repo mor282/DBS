@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import errorcode
 import requests
 
 """
@@ -31,6 +32,7 @@ def insert_query(cnx, cur, table_name, values):
                     get_table_values_tup(table_name), values)
         cnx.commit()
     except:
+        print(errorcode)
         cnx.rollback()
     return
 
@@ -111,7 +113,7 @@ lang_dict = {}
 #================================end of global dictionaries============================================
 
 
-def init_movies():
+def init_movies(cnx, cur):
 
     m_first_page_url = "https://api.themoviedb.org/3/discover/movie?api_key=a48ba1f202cb5cd5e619e2" \
           "f5e041b34a&sort_by=popularity.desc&page=1&release_date.lte=2020-12-31"
@@ -164,7 +166,8 @@ def init_movies():
                    "lan {} , pos {} , rel {} , gen {} , ove {}").format(
                                                 m_id, m_title, m_budget, m_revenue, m_runtime, m_language,
                                                 m_poster_link, m_release_year, m_genre, m_overview))
-
+            insert_query(cnx, cur, "movies", (m_id, m_title, m_budget, m_revenue, m_runtime, m_language,
+                                                m_poster_link, m_release_year, m_genre, m_overview))
             # locations related data
             l_url = "https://api.themoviedb.org/3/movie/{}?api_key=a48ba1f202cb5cd5e619e2f5e041b34a".format(m_id)
             l_response = requests.get(l_url)
@@ -182,13 +185,15 @@ def init_movies():
         m_response.close()
 
 def main():
-    # cnx = connect_to_db()
-    # cur = cnx.cursor(buffered=True)
+    cnx = connect_to_db()
+    cur = cnx.cursor(buffered=True)
 
     init_lang_dict()
-    init_movies()
+    init_movies(cnx, cur)
 
-    # cur.close()
-    # cnx.close()
+    cur.close()
+    cnx.close()
 
 main()
+
+
