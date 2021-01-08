@@ -190,12 +190,12 @@ def init_movies(cnx, cur):
                 c_age=txt3.split(",birthday:")[1].split(",")[0]
                 c_photo_link=txt3.split(",profile_path:")[1].split("}")[0]
                 c_photo_link="https://image.tmdb.org/t/p/original/" +c_photo_link
-                if c_age=="null":
-                    c_age="-1"
-                else:
-                    c_age=c_age[:4] 
-                    c_age=2020-int(c_age)
-                    c_age=str(c_age)
+                #if c_age=="null":
+                    #c_age="-1"
+                #else:
+                    #c_age=c_age[:4] 
+                    #c_age=2020-int(c_age)
+                    #c_age=str(c_age)
                 print(("profile_id {} , name {} , gender {} , age {} , known_for {} , "
                    "pop {} , department {} ,role{}, bio{}").format(
                                                 c_id, c_name,c_gender,c_age,c_known_for,
