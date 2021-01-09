@@ -4,6 +4,28 @@ This module contains all the app queries
 import  query_utilities
 
 
+def get_profiles_by_roles_and_movie(role,movie_id):
+    """
+    return an iterator of profiles.
+
+    keyword arguments:
+    role -- the role we are looking
+    movie -- the
+    """
+    cnx = query_utilities.connect_to_db()             #get connection with db
+    cur = cnx.cursor(buffered=True)                   #define a cursor
+    query = ("SELECT DISTINCT profile_id, name, gender, age, main_department, popularity, biography, photo_link"
+            "FROM profile, movie_crew"
+            "WHERE movie_crew.profile_id = profile.profile_id AND"
+            "movie_crew.movie_id =" + movie_id +"AND"
+            "movie_crew.role = "+ role)
+    cur.execute(query)
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+
 def get_countries():
     """connect to db, return list of all countries in our database"""
 
@@ -21,8 +43,8 @@ def get_countries():
 def get_movies():
     """connect to db, return list of all movies in our database"""
 
-    cnx,cur = query_utilities.connect_to_db()             #get connection with db
-    query = ("SELECT  title, movie_id"   #sql query to return all movies
+    cnx,cur = query_utilities.connect_to_db()       #get connection with db
+    query = ("SELECT  title, movie_id"              #sql query to return all movies
             "FROM movies")
     cur.execute(query)
     lst = cur.fetchall()

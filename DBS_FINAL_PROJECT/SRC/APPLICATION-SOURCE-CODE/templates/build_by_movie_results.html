@@ -26,33 +26,6 @@
             </a>
     </div>
 
-    <div class = "container">
-      <h3>select a role and a movie and we will find the person</h3>
-      <form action="/build_by_movie_res" method = "post" >
-        <div class="form-group row">
-          <div class="col-4">
-            <select class = "form-control" id="roleselect" name = "role">
-              <option value="" disabled selected hidden>Select Role</option>
-              {% for r in roles %}
-                <option value = "{{ r.role }}" > {{r.role}} </option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="col-4">
-            <select class = "form-control" id="movie_sel" name = "movie_id">
-              <option value="" disabled selected hidden>Select movie</option>
-              {% for movie in movies_lst %}
-                <option value = "{{ movie.movie_id }}" > {{movie.title}} </option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="col-1">
-            <div class="form-group">
-              <button class="btn btn-outline-insfo" >Search</button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+    
   </body>
 </html>

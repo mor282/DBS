@@ -18,5 +18,12 @@ def build_by_movie():
     roles = get_roles()
     return render_template('build_by_movie.html',movies_lst = movies_lst, roles= roles)
 
+@app.route("/build_by_movie_results", methods=["POST"])
+    def build_by_movie_results():
+        movie_id = request.form.get("movie_id")
+        role = request.form.get("role")
+        res =  get_profiles_by_roles_and_movie(role,movie_id)
+        return render_template('build_by_movie_results.html',res)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
