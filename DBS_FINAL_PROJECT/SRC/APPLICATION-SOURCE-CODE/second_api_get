@@ -1,0 +1,110 @@
+import requests
+
+role_dict={}
+#group 1
+crew="https://thefilmproduction.wordpress.com/"
+#group 2
+prod="https://thefilmproduction.wordpress.com/production-department/"
+camera="https://thefilmproduction.wordpress.com/camera-department/"
+sound="https://thefilmproduction.wordpress.com/production-sound-department/"
+#group 3
+dir="https://thefilmproduction.wordpress.com/direction-department/"
+light="https://thefilmproduction.wordpress.com/light-department/"
+style="https://thefilmproduction.wordpress.com/style-department/"
+def rid_of_signs(desc):
+    desc1=desc.replace('&#8221;','"')
+    desc1=desc1.replace('&#8220;','"')
+    desc1=desc1.replace('&#8212;','--')
+    desc1=desc1.replace('&#8217;','`')
+    desc1=desc1.replace('<strong>','"')
+    desc1=desc1.replace('</strong>','"')
+    return desc1
+
+def get_crew():
+    resposeSecond=requests.get(crew)
+    s2txt = resposeSecond.text
+    cat=s2txt.split("</h2>")
+    for j in range(3,5):
+        row=cat[j].split("<p style=")
+        for i in range(1,len(row)):
+            key=row[i].split("<strong>")[1].split("</strong>")[0]
+            desc=str(row[i].split('&#8211;')[1].split("</p>")[0])
+            desc=rid_of_signs(desc)
+            role_dict[key]=desc
+    resposeSecond.close()
+def get_art():
+    key="Production Designer"
+    desc="Production Designers are major heads of department on film crews, and are responsible for the entire Art Department. They play a crucial role in helping Directors to achieve the film’s visual requirements, and in providing Producers with carefully calculated schedules which offer viable ways of making films within agreed budgets and specified periods of time. Filming locations may range from an orderly Victorian parlour, to a late-night café, to the interior of an alien space ship. The look of a set or location is vital in drawing the audience into the story, and is an essential element in making a film convincing and evocative. A great deal of work and imagination goes into constructing an appropriate backdrop to any story, and into selecting or constructing appropriate locations and/or sets."
+    role_dict[key]=desc
+    key="Art Director"
+    desc="Art Directors act as project managers for the biggest department on any film – the Art Department. They facilitate the Production Designer’s creative vision for all the locations and sets that eventually give the film its unique visual identity. Art Directors are responsible for the Art Department budget and schedule of work, and help the Production Designer to maximise the money allocated to the department. Art Directors are usually requested by the Production Designer, and are responsible for the Assistant Art Director, the Draughtsman* (as many as 20 Draughtsmen may be employed on big budget films), the Art Department Assistant(s) and all Construction personnel. As Art Directors must find practical solutions to creative problems while simultaneously monitoring the budget, this is highly skilled work. Many Art Directors work on television drama and commercials, as well as on films. The hours are long and the job can involve long periods working away from home. Art Directors work on a freelance basis."
+    role_dict[key]=desc
+    key="Carpenter"
+    desc="Carpenters on film productions are key members of the construction team, and they must be very skilled at their craft.  Reporting to the Chargehand Carpenter, they build, install and remove wooden structures on film sets and locations, and also make wooden props, furniture and scenic equipment.  The role requires extensive carpentry experience and creative skills, as well as the ability to work to deadlines, and under pressure."
+    role_dict[key]=desc
+    key="Set Decorator"
+    desc="Set Decorators provide anything that furnishes a film set, excluding structural elements. They may have to provide a range of items, from lumps of sugar and tea spoons, to newspapers, furniture and drapes, to cars, carriages, or even cats and dogs. There are two types of props: action props, or all props that are described in the shooting script; and dressing props, or items that help to bring characters to life or to give a certain atmosphere and sense of period to a place."
+    role_dict[key]=desc
+
+def get_g2(link):
+    resposeSecond=requests.get(link)
+    s2txt = resposeSecond.text
+    s2txt=s2txt.replace('"','')
+    rows=s2txt.split("<h2 style=text-align:justify;><span style=color:#ff0000;")
+    for i in range (1,len(rows)):
+        key=rows[i].split("</span></h2>")[0][4:]
+        desc=rows[i].split("<p style=text-align:justify;>")[1].split(".</p>")[0]
+        desc=rid_of_signs(desc)
+        role_dict[key]=desc
+    resposeSecond.close()
+        
+def get_dir():
+    resposeSecond=requests.get(dir)
+    s2txt = resposeSecond.text
+    s2txt=s2txt.replace('"','')
+    rows=s2txt.split("<h2 style=text-align:justify;><span style=color:#ff0000;")
+    for i in range(1,len(rows)):
+        key=rows[i].split("</span></h2>")[0][4:]
+        if(i==1) or (i==5):
+            desc=desc=rows[i].split("<p style=text-align:justify;>")[1].split("</p>")[0]
+        else:
+            desc=desc=rows[i].split("<p style=text-align:justify;>")[2].split("</p>")[0]
+        desc=rid_of_signs(desc)
+        role_dict[key]=desc
+    resposeSecond.close()
+    
+def get_light():
+    resposeSecond=requests.get(light)
+    s2txt = resposeSecond.text
+    s2txt=s2txt.replace('"','')
+    rows=s2txt.split("<h2 style=text-align:justify;><span style=color:#ff0000;")
+    for i in range(1,len(rows)):
+        key=rows[i].split("</span></h2>")[0][4:]
+        desc=desc=rows[i].split("<p style=text-align:justify;>")[2].split("</p>")[0]
+        desc=rid_of_signs(desc)
+        role_dict[key]=desc
+    resposeSecond.close()
+
+def get_style():
+    resposeSecond=requests.get(style)
+    s2txt = resposeSecond.text
+    s2txt=s2txt.replace('"','') 
+    rows=s2txt.split("<h2>")
+    for i in range(1,len(rows)):
+        key=rows[i].split("</h2>")[0][3:]
+        desc=rows[i].split("</h2>")[1].split("<p><strong>")[0]
+        desc=desc.replace('<p>','')
+        desc=rid_of_signs(desc)
+        role_dict[key]=desc
+    resposeSecond.close()      
+
+#build the dict
+get_crew()
+get_g2(prod)
+get_g2(camera)
+get_g2(sound)
+get_light()
+get_dir()
+get_art()
+get_style()
+print(len(role_dict))
