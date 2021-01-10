@@ -22,7 +22,7 @@ def build_by_movie():
 def build_by_movie_results():
     movie_id = request.form.get("movie_id")
     role = request.form.get("role")
-    res =  get_profiles_by_role_and_movie(role,movie_id)
+    res =  queries.get_profiles_by_role_and_movie(role,movie_id)
     return render_template('build_by_movie_results.html')
 
 if __name__ == "__main__":
