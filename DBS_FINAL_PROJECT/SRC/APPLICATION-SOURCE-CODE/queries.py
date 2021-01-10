@@ -15,9 +15,9 @@ def connect_to_db():
     config = {
         'user': 'DbMysql08',
         'password': 'DbMysql08',
-        'host': '127.0.0.1',       #use 'localhost' or '127.0.0.1' if running from home
+        'host': '127.0.0.1',                    #use 'localhost' or '127.0.0.1' if running from home
         'database': 'DbMysql08',
-        'port': 3305,                           #use your forward if running from home
+        'port': 3305,                           #use your forwarding port if running from home
         'raise_on_warnings': True,
     }
 
@@ -35,7 +35,7 @@ def connect_to_db():
     return cnx,cur
 
 
-def get_profiles_by_roles_and_movie(role,movie_id):
+def get_profiles_by_role_and_movie(role,movie_id):
     """
     return an iterator of profiles.
 
@@ -43,13 +43,12 @@ def get_profiles_by_roles_and_movie(role,movie_id):
     role -- the role we are looking
     movie -- the
     """
-    cnx = query_utilities.connect_to_db()             #get connection with db
-    cur = cnx.cursor(buffered=True)                   #define a cursor
+    cnx,cur = connect_to_db()
     query = ("SELECT DISTINCT profile_id, name, gender, age, main_department, popularity, biography, photo_link"
-            "FROM profile, movie_crew"
-            "WHERE movie_crew.profile_id = profile.profile_id AND"
-            "movie_crew.movie_id =" + movie_id +"AND"
-            "movie_crew.role = "+ role)
+            "FROM profile, movie_crew "
+            "WHERE movie_crew.profile_id = profile.profile_id AND "
+            "movie_crew.movie_id = " + movie_id +" AND"
+            "movie_crew.role = "+ role )
     cur.execute(query)
     lst = cur.fetchall()
     cur.close()
@@ -60,8 +59,7 @@ def get_profiles_by_roles_and_movie(role,movie_id):
 def get_countries():
     """connect to db, return list of all countries in our database"""
 
-    cnx = query_utilities.connect_to_db()             #get connection with db
-    cur = cnx.cursor(buffered=True)                   #define a cursor
+    cnx,cur = connect_to_db()             #get connection with db
     query = ("SELECT DISTINCT country, location_id"   #sql query to return all countries
             "FROM locations")
     cur.execute(query)
@@ -74,11 +72,8 @@ def get_countries():
 def get_movies():
     """connect to db, return list of all movies in our database"""
 
-    cnx,cur = query_utilities.connect_to_db()       #get connection with db
-    query = ("SELECT  title, movie_id"              #sql query to return all movies
-            "FROM movies"
-            "ORDER BY title")
-    cur.execute(query)
+    cnx,cur = connect_to_db()       #get connection with db
+    cur.execute("SELECT  title, movie_id FROM movies")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -88,10 +83,8 @@ def get_movies():
 def get_roles():
     """connect to db, return list of all roles in our database"""
 
-    cnx,cur = query_utilities.connect_to_db()             #get connection with db
-    query = ("SELECT  DISTINCT role"   #sql query to return all movies
-            "FROM department")
-    cur.execute(query)
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT  DISTINCT role FROM department")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -101,10 +94,8 @@ def get_roles():
 def get_genre():
     """connect to db, return list of all genres in our database"""
 
-    cnx,cur = query_utilities.connect_to_db()             #get connection with db
-    query = ("SELECT DISTINCT genre"   #sql query to return all movies
-            "FROM movies")
-    cur.execute(query)
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT DISTINCT genre FROM movies")   #sql query to return all genres
     lst = cur.fetchall()
     cur.close()
     cnx.close()
