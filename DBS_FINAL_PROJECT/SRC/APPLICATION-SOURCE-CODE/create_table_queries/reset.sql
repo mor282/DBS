@@ -57,8 +57,9 @@ CREATE  TABLE DbMysql08.genres (
   `genre` CHAR(20) NOT NULL ,
   PRIMARY KEY (`genre_id`) ,
   FOREIGN KEY (movie_id) REFERENCES `DbMysql08`.`movies` (movie_id)
+  UNIQUE INDEX `genre_id_UNIQUE` (`genre_id` ASC)
 );
-
+                            
 CREATE  TABLE DbMysql08.movie_crew (
   `crew_id` INT NOT NULL AUTO_INCREMENT ,
   `profile_id` INT NOT NULL ,
