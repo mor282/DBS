@@ -1,7 +1,7 @@
 CREATE  TABLE DbMysql08.movie_crew (
   `crew_id` INT NOT NULL AUTO_INCREMENT ,
   `profile_id` INT NOT NULL ,
-  `role` VARCHAR(50) NOT NULL ,
+  `role` CHAR(50) NOT NULL ,
   `movie_id` INT NOT NULL ,
   PRIMARY KEY (`crew_id`) ,
   FOREIGN KEY (movie_id) REFERENCES DbMysql08.movies(movie_id),
