@@ -60,9 +60,7 @@ def get_countries():
     """connect to db, return list of all countries in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    query = ("SELECT DISTINCT country, location_id"   #sql query to return all countries
-            "FROM locations")
-    cur.execute(query)
+    cur.execute("SELECT DISTINCT country, location_id FROM locations")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
