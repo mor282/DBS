@@ -44,12 +44,12 @@ def get_profiles_by_role_and_movie(role,movie_id):
     movie -- the
     """
     cnx,cur = connect_to_db()
-    query = ("SELECT DISTINCT profile.profile_id, name, gender, age, profile.main_department, popularity, biography, photo_link "
+    query = ("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
             "FROM profile, movie_crew "
             "WHERE movie_crew.profile_id = profile.profile_id AND "
-            "movie_crew.movie_id = " + movie_id + " AND "
-            "movie_crew.role = "+ str(role)  )
-    cur.execute(query)
+            "movie_crew.movie_id = %s AND "
+            "movie_crew.role = %s " )
+    cur.execute(query,(movie_id,role))
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -67,7 +67,7 @@ def get_countries():
     return lst
 
 
-def get_movies():
+def get_all_movies():
     """connect to db, return list of all movies in our database"""
 
     cnx,cur = connect_to_db()       #get connection with db
@@ -77,12 +77,31 @@ def get_movies():
     cnx.close()
     return lst
 
+def get_movie(movie_id):
+    """connect to db, return list of all movies in our database"""
 
-def get_roles():
+    cnx,cur = connect_to_db()       #get connection with db
+    cur.execute("SELECT  title, movie_id FROM movies WHERE movie_id =" + movie_id)
+    lst = cur.fetchone()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_all_roles():
     """connect to db, return list of all roles in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT  DISTINCT role FROM department")
+    cur.execute("SELECT  DISTINCT role FROM movie_crew")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_movie_roles(movie_id):
+    """connect to db, return list of all roles in specific movie"""
+
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT  DISTINCT role FROM movie_crew WHERE movie_id = " + movie_id )
     lst = cur.fetchall()
     cur.close()
     cnx.close()
