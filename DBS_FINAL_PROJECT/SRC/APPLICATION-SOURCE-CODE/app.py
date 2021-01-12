@@ -1,149 +1,64 @@
-"""
-This module contains all the app queries
-"""
-import mysql.connector
-from mysql.connector import errorcode
+from flask import Flask, render_template, redirect, url_for,json, jsonify, request,session
+import queries
+import datetime
 
-def connect_to_db():
-    """
-    connects to the database, execute the query and return cnx.
+app = Flask(__name__)
 
-    cnx is a connection object
-    """
+@app.route("/")
+def home():
+    return render_template('home.html')
 
-    # The Database login details
-    config = {
-        'user': 'DbMysql08',
-        'password': 'DbMysql08',
-        'host': '127.0.0.1',                    #use 'localhost' or '127.0.0.1' if running from home
-        'database': 'DbMysql08',
-        'port': 3305,                           #use your forwarding port if running from home
-        'raise_on_warnings': True,
-    }
+@app.route("/index")
+def index():
+    return render_template('index.html')
 
-    try:
-        cnx = mysql.connector.connect(**config)
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-
-    cur = cnx.cursor(buffered = True)
-    return cnx,cur
+@app.route("/build_by_movie")
+def build_by_movie():
+    movies_lst = queries.get_all_movies()
+    return render_template('build_by_movie.html', movies_lst = movies_lst)
 
 
-def get_profiles_by_role_and_movie(role,movie_id):
-    """
-    return an iterator of profiles.
+@app.route("/build_by_movie/<movie_id>")
+def build_by_movie_role(movie_id):
+    roles = queries.get_movie_roles(movie_id)
+    rolesArray=[]
+    for row in roles:
+        roleObj ={'id':row[0], 'name': row[0] }
+        rolesArray.append(roleObj)
+    return jsonify({'movie_roles' : rolesArray })
 
-    keyword arguments:
-    role -- the role we are looking
-    movie -- the
-    """
-    cnx,cur = connect_to_db()
-
-    cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "+
-                "FROM profile, movie_crew "
-                "WHERE movie_crew.profile_id = profile.profile_id AND "
-                "movie_crew.movie_id = " + movie_id + " AND "
-                "movie_crew.role LIKE '%" + role + "%'")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
+@app.route("/build_by_movie_results", methods=["POST"])
+def build_by_movie_results():
+    movies_lst = queries.get_all_movies()
+    movie_id = request.form.get("movie_id")
+    role = request.form.get("role")
+    res =  queries.get_profiles_by_role_and_movie(role,movie_id)
+    return render_template('build_by_movie_results.html',res = res,movies_lst = movies_lst)
 
 
-def get_countries():
-    """connect to db, return list of all countries in our database"""
+@app.route("/build_by_country")
+def build_by_country():
+    country_lst = queries.get_countries()
+    return render_template('build_by_country.html', country_lst = country_lst)
 
-    cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT country, location_id FROM locations")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
+@app.route("/build_by_country/<country_id>")
+def build_by_country_role(country_id):
+    roles = queries.get_country_roles(country_id)
+    rolesArray=[]
+    for row in roles:
+        roleObj ={'id':row[0], 'name': row[0] }
+        rolesArray.append(roleObj)
+    return jsonify({'country_roles' : rolesArray })
 
+@app.route("/build_by_country_results", methods=["POST"])
+def build_by_country_results():
+    country_lst = queries.get_all_movies()
+    country_id = request.form.get("country_id")
+    role = request.form.get("role")
+    res =  queries.get_profiles_by_role_and_counrty(role,country_id)
+    return render_template('build_by_country_results.html',res = res,country_lst = country_lst)
 
-def get_all_movies():
-    """connect to db, return list of all movies in our database"""
-
-    cnx,cur = connect_to_db()       #get connection with db
-    cur.execute("SELECT  movie_id, title FROM movies")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-
-def get_all_roles():
-    """connect to db, return list of all roles in our database"""
-
-    cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT  DISTINCT role FROM movie_crew")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-
-def get_movie_roles(movie_id):
-    """
-    connect to db, return list of all roles in specific movie
-
-    keywords arguments:
-    movie_id -- the uniqe id of the movie we want
-    """
-
-    cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT  DISTINCT role FROM movie_crew WHERE movie_id = " + str(movie_id) )
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-
-
-def get_genre():
-    """connect to db, return list of all genres in our database"""
-
-    cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT genre FROM genres")   #sql query to return all genres
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-
-
-def get_country_roles(country_id):
-    
-    cnx,cur = connect_to_db()
-    cur.execute("SELECT  DISTINCT role FROM movie_crew, locations " +
-    "WHERE locations.location_id = " + str(county_id) + " AND locations.movie_id = movie_crew.movie_id")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-
-def get_profiles_by_role_and_counrty(role,country_id):
-    """
-    return an iterator of profiles.
-
-    keyword arguments:
-    role -- the role we are looking
-    movie -- the
-    """
-    cnx,cur = connect_to_db()
-    cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "+
-                "FROM profile, movie_crew, locations " +
-                "WHERE movie_crew.profile_id = profile.profile_id AND " +
-                "movie_crew.movie_id = locations.movie_id "  " AND " +
-                "locations.location_id = " + str(county_id) + 
-                "movie_crew.role LIKE '%" + role + "%'")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-    
-     
     
     
+if __name__ == '__main__':
+    app.run(debug = True)
