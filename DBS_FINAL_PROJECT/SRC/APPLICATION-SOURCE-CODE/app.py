@@ -12,10 +12,17 @@ def home():
 def index():
     return render_template('index.html')
 
+@app.route("/profiles")
+def profiles():
+    roles = queries.get_all_roles()
+    lst = queries.get_profile_names_and_photos()
+    return render_template('profiles.html', roles=roles, lst=lst)
+
+
 @app.route("/build_by_movie")
 def build_by_movie():
     movies_lst = queries.get_all_movies()
-    return render_template('build_by_movie.html', movies_lst = movies_lst)
+    return render_template('build_by_movie.html',movies_lst = movies_lst)
 
 
 @app.route("/build_by_movie/<movie_id>")
@@ -35,5 +42,6 @@ def build_by_movie_results():
     res =  queries.get_profiles_by_role_and_movie(role,movie_id)
     return render_template('build_by_movie_results.html',res = res,movies_lst = movies_lst)
 
-if __name__ == '__main__':
-    app.run(debug = True)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
