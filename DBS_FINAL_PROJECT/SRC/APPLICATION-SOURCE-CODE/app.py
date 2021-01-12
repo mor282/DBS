@@ -68,6 +68,7 @@ def movies_by_words():
     text = request.form.get(words);
     words = text.split(",");
     n = len(words);
+    return False
 
 
 if __name__ == '__main__':
