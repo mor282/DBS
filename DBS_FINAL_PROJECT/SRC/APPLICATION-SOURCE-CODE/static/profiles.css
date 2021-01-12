@@ -1,8 +1,8 @@
-body
-{
+body {
+
 	background-image:url('redstar2.jpg');
 	background-repeat: repeat-y;
-	background-size:1300px 1200px;
+	background-size: cover;
 	/*background-blend-mode: lighten;*/
 	padding-top: 60px;
 

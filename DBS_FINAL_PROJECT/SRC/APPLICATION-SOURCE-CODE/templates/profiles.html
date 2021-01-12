@@ -13,7 +13,7 @@
 	  <input type="text" id="name" name="name">
 	  <input type="submit" value="Search">
 	</form>
-	
+
 	<p style="font-family:candara light; font-size:30px">OR</p>
 
 	<form action="/profiles_res" method="post">
@@ -23,7 +23,7 @@
 			<option value="male">Male</option>
 			<option value="female">Female</option>
 	  </select>
-	  
+
 	  <label style="font-family:candara light;">Profession:</label>
 	  <select id="roles" name="role">
 			<option value="">All</option>
@@ -31,7 +31,7 @@
             <option value = "{{ r[0] }}" > {{r[0]}} </option>
 				{% endfor %}
 	  </select>
-	  
+
 	  <label style="font-family:candara light;">Popularity:</label>
 	  <select id="Pop" name="pop">
 	    <option value="0">All</option>
@@ -47,20 +47,20 @@
 		<option value="10">10+</option>
 		<option value="15">15+</option>
 	  </select>
-	  
+
 	  <br><br>
-	  
+
 	  <label for="orderby" style="font-family:candara light;">Order by:</label>
 	  <select name="orderby" id="orderby">
 		<option value="popularity">Popularity</option>
 		<option value="age">Age</option>
 		<option value="age">Name</option>
 	  </select>
-  
+
   <input type="submit" value="Search">
 </form>
 </div>
-
+<div>
 		{% for name in lst %}
 	<p style="font-size:30px; font-family:castellar; text-align:center" class="popup" onclick="myFunction()">{{name[0]}}
 	  <span class="popuptext" id="myPopup" style="font-family:candara light; font-size:20px;">{{name[2]}}</span>
@@ -125,7 +125,7 @@
 
 	/* Add animation (fade in the popup) */
 	@-webkit-keyframes fadeIn {
-	  from {opacity: 0;} 
+	  from {opacity: 0;}
 	  to {opacity: 1;}
 	}
 
