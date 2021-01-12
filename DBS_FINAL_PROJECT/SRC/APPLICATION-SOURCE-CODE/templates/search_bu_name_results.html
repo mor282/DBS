@@ -1,8 +1,19 @@
 {% extends "layout.html" %}
-
 {%block body%}
 <div>
-  <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+	    <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+
+	 {% for name in lst %}
+		<p style="font-size:30px; font-family:castellar; text-align:center">{{name[0]}}
+		  <h1><img src={{name[1]}} width="150" height="200"></h1>
+		</p>
+	{% endfor %}
+	
+	{% if size == 0 %}
+		<h1> No Results!</h1>
+		<h1> there are no crew members with that name, please enter a different name</h1>
+	{% endif %}
+
 </div>
 
 
