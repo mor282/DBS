@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class = "container">
+    <link rel="stylesheet" type="text/css" href = "../static/style2.css">
+    <h3 style = "color:white; text-align: center;">select role and movie and we will find the person</h3>
+    <form action="/build_by_movie_role" method = "post" >
+      <div class="form-group row">
+        <div class="col-4">
+          <select class = "form-control" id="movie_sel" name = "movie_id" autocomplete ="on">
+            <option value="" disabled selected hidden>Select movie</option>
+            {% for movie in movies_lst %}
+              <option value = "{{ movie[1] }}" > {{movie[0]}} </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-1">
+          <div class="form-group">
+            <button class="btn btn-outline-info" >Submit</button>
+          </div>
+        </div>
+        <div class="col-4">
+          <select class = "form-control" id="roleselect" name = "role" disabled>
+            <option value="" disabled selected hidden>Select Role</option>
+            {% for r in roles %}
+              <option value = "{{ r[0] }}" > {{r[0]}} </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-1">
+          <div class="form-group">
+            <button class="btn btn-outline-info" disabled>Search</button>
+          </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+{% block content %}
+<div>
+  {% for p in res %}
+    <h3> {{p[1]}}</h3>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>THE CREW BUiLDER</title>
+  </head>
+  <body>
+
+	  <div class="topnav" id="myTopnav"> <!menu bar>
+		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		  <link rel="stylesheet" href = "../static/style.css">
+			<h1 style="color:white; text-align:center; font-family:algerian; font-size:50px; background-color:black;">
+				CREW-MAKE(R) </h1>
+			<h2 style="font-family:bradley hand ITC; text-align:center; color:white;">
+				Temporarily Request Page - just for testing it can be modified later</h2>
+			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+			<i class="fa fa-bars"></i>
+			<a href="home.html">Home</a>
+			<a href="index.html"  class="active">Request</a>
+			<a href="crew_list.html">Crew List</a>
+			<a href="about.html">About</a>
+			</a>
+	  </div>
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <div>
+      <ul>
+        {% for p in crew_lst %}
+          <li>{{ p }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+
+</html>
