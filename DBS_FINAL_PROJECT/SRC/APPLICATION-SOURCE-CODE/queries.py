@@ -44,12 +44,12 @@ def get_profiles_by_role_and_movie(role,movie_id):
     movie -- the
     """
     cnx,cur = connect_to_db()
-
-    cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "+
-                "FROM profile, movie_crew "
-                "WHERE movie_crew.profile_id = profile.profile_id AND "
-                "movie_crew.movie_id = " + movie_id + " AND "
-                "movie_crew.role LIKE '%" + role + "%'")
+    query = ("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
+            "FROM profile, movie_crew "
+            "WHERE movie_crew.profile_id = profile.profile_id AND "
+            "movie_crew.movie_id = %s AND "
+            "movie_crew.role = %s " )
+    cur.execute(query,(movie_id,role))
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -71,8 +71,18 @@ def get_all_movies():
     """connect to db, return list of all movies in our database"""
 
     cnx,cur = connect_to_db()       #get connection with db
-    cur.execute("SELECT  movie_id, title FROM movies")
+    cur.execute("SELECT  title, movie_id FROM movies")
     lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_movie(movie_id):
+    """connect to db, return list of all movies in our database"""
+
+    cnx,cur = connect_to_db()       #get connection with db
+    cur.execute("SELECT  title, movie_id FROM movies WHERE movie_id =" + movie_id)
+    lst = cur.fetchone()
     cur.close()
     cnx.close()
     return lst
@@ -88,15 +98,10 @@ def get_all_roles():
     return lst
 
 def get_movie_roles(movie_id):
-    """
-    connect to db, return list of all roles in specific movie
-
-    keywords arguments:
-    movie_id -- the uniqe id of the movie we want
-    """
+    """connect to db, return list of all roles in specific movie"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT  DISTINCT role FROM movie_crew WHERE movie_id = " + str(movie_id) )
+    cur.execute("SELECT  DISTINCT role FROM movie_crew WHERE movie_id = " + movie_id )
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -107,15 +112,55 @@ def get_genre():
     """connect to db, return list of all genres in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT genre FROM genres")   #sql query to return all genres
+    cur.execute("SELECT DISTINCT genre FROM movies")   #sql query to return all genres
     lst = cur.fetchall()
     cur.close()
     cnx.close()
     return lst
 
+def get_profile_names_and_photos():
+
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT name, photo_link, biography FROM profile limit 100")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_profile_by_search(role,gender,pop,orderby):
+
+    cnx,cur = connect_to_db()             #get connection with db
+
+    orderby = "ORDER BY " + orderby
+
+    if gender =="" and not role == "":
+        query = "main_department = " + role + " and popularity >" + pop
+
+    if not gender == "" and role =="":
+        query = "gender=" + gender + " and popularity >" + pop
+
+    if not gender =="" and not role=="":
+        query = "gender="+gender+" and main_department="+role+" and popularity >" + pop
+
+    cur.execute("SELECT name, photo_link, biography FROM profile WHERE " +query+ " limit 100")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_profile_by_name(name):
+
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT name, photo_link, biography FROM profile WHERE name LIKE '%"+name+"%' limit 100")
+    lst = cur.fetchall()
+    size = len(lst)
+    cur.close()
+    cnx.close()
+    return lst,size
+
 
 def get_country_roles(country_id):
-    
+
     cnx,cur = connect_to_db()
     cur.execute("SELECT  DISTINCT role FROM movie_crew, locations " +
     "WHERE locations.location_id = " + str(county_id) + " AND locations.movie_id = movie_crew.movie_id")
@@ -137,13 +182,5 @@ def get_profiles_by_role_and_counrty(role,country_id):
                 "FROM profile, movie_crew, locations " +
                 "WHERE movie_crew.profile_id = profile.profile_id AND " +
                 "movie_crew.movie_id = locations.movie_id "  " AND " +
-                "locations.location_id = " + str(county_id) + 
+                "locations.location_id = " + str(county_id) +
                 "movie_crew.role LIKE '%" + role + "%'")
-    lst = cur.fetchall()
-    cur.close()
-    cnx.close()
-    return lst
-    
-     
-    
-    
