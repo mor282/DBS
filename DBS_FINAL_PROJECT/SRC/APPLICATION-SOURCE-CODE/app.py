@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request,session
+from flask import Flask, render_template, redirect, url_for,json, jsonify, request,session
 import queries
 import datetime
 
@@ -12,18 +12,28 @@ def home():
 def index():
     return render_template('index.html')
 
-@app.route("/build_by_movie", methods = ["GET","POST"])
+@app.route("/build_by_movie")
 def build_by_movie():
-    movies_lst = queries.get_movies()
-    roles = queries.get_roles()
-    return render_template('build_by_movie.html',movies_lst = movies_lst, roles= roles)
+    movies_lst = queries.get_all_movies()
+    return render_template('build_by_movie.html', movies_lst = movies_lst)
+
+
+@app.route("/build_by_movie/<movie_id>")
+def build_by_movie_role(movie_id):
+    roles = queries.get_movie_roles(movie_id)
+    rolesArray=[]
+    for row in roles:
+        roleObj ={'id':row[0], 'name': row[0] }
+        rolesArray.append(roleObj)
+    return jsonify({'movie_roles' : rolesArray })
 
 @app.route("/build_by_movie_results", methods=["POST"])
 def build_by_movie_results():
+    movies_lst = queries.get_all_movies()
     movie_id = request.form.get("movie_id")
     role = request.form.get("role")
-    res =  get_profiles_by_role_and_movie(role,movie_id)
-    return render_template('build_by_movie_results.html')
+    res =  queries.get_profiles_by_role_and_movie(role,movie_id)
+    return render_template('build_by_movie_results.html',res = res,movies_lst = movies_lst)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+if __name__ == '__main__':
+    app.run(debug = True)

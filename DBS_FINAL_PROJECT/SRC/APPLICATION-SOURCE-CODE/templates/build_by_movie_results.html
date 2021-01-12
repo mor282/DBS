@@ -1,72 +1,54 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+{% extends "layout.html" %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    <title>CrewMake</title>
-  </head>
-  <body>
-    <nav class="topnav" id="myTopnav"> <!menu bar>
-		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		  <link rel="stylesheet" href = "../static/style.css">
-			<h1 style="color:white; text-align:center; font-family:algerian; font-size:50px; background-color:black;">
-				CREW-MAKE(R) </h1>
-			<h2 style="font-family:bradley hand ITC; text-align:center; color:white;">
-				Temporarily Request Page - just for testing it can be modified later</h2>
-			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-			<i class="fa fa-bars"></i>
-      <a href="{{url_for('home')}}">Home</a>
-			<a href="{{url_for('index')}}"  class="active">Request</a>
-			<a href="#crew_list.html">Crew List</a>
-			<a href="about.html">About</a>
-			</a>
-	  </nav>
-	  <script>
-	    function myFunction() {
-        var x = document.getElementById("myTopnav");
-	      if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
+{% block body %}
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+  document.querySelector('#movie_sel').onchange = () => {
+    const movie_id = document.querySelector('#movie_sel').value;
+    fetch('build_by_movie/' + movie_id).then(response => {
+      response.json().then(data => {
+        for (role of data.movie_roles){
+          var para = document.createElement("OPTION");
+          para.setAttribute("value",role.id)
+          var t = document.createTextNode( role.id );
+          para.appendChild(t);
+          document.getElementById('role').appendChild(para);
         }
-      }
-    </script>
+      });
+    });
+  }
+});
+</script>
 
-    <div class = "container">
-      <link rel="stylesheet" type="text/css" href = "../static/style2.css">
-      <h3 style = "color:white; text-align: center;">select role and movie and we will find the person</h3>
-      <form action="/build_by_movie_res" method = "post" >
-        <div class="form-group row">
-          <div class="col-4">
-            <select class = "form-control" id="roleselect" name = "role">
-              <option value="" disabled selected hidden>Select Role</option>
-              {% for r in roles %}
-                <option value = "{{ r[0] }}" > {{r[0]}} </option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="col-4">
-            <select class = "form-control" id="movie_sel" name = "movie_id">
-              <option value="" disabled selected hidden>Select movie</option>
-              {% for movie in movies_lst %}
-                <option value = "{{ movie[0] }}" > {{movie[1]}} </option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="col-1">
-            <div class="form-group">
-              <button class="btn btn-outline-info" >Search</button>
-            </div>
-          </div>
+<div class = "container">
+  <link rel="stylesheet" type="text/css" href = "../static/style2.css">
+  <h3 style = "color:white; text-align: center;">select role and movie and we will find the person</h3>
+  <form action = "/build_by_movie_results" method = "post" >
+    <div class="form-group row">
+      <div class="col-4">
+        <select class = "form-control" id = 'movie_sel' name = "movie_id">
+          <option value="" disabled selected hidden>Select movie</option>
+          {% for movie in movies_lst %}
+            <option value = "{{ movie[0] }}" > {{ movie[1] }} </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-4" >
+        <select class = "form-control" id="role" name = "role" ></select>
+      </div>
+      <div class="col-1">
+        <div class="form-group">
+          <button class="btn btn-outline-info" id='Search' >Search</button>
         </div>
-      </form>
+      </div>
     </div>
-
-
-  </body>
-</html>
+  </form>
+</div>
+{% endblock %}
+{% block content %}
+<div class="centerdiv">
+  {% for p in res %}
+    <h3> {{p[1]}}</h3>
+  {% endfor %}
+</div>
+{% endblock %}
