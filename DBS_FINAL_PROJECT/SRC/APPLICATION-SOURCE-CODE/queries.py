@@ -71,7 +71,7 @@ def get_all_movies():
     """connect to db, return list of all movies in our database"""
 
     cnx,cur = connect_to_db()       #get connection with db
-    cur.execute("SELECT  title, movie_id FROM movies")
+    cur.execute("SELECT movie_id, title FROM movies")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -81,7 +81,7 @@ def get_movie(movie_id):
     """connect to db, return list of all movies in our database"""
 
     cnx,cur = connect_to_db()       #get connection with db
-    cur.execute("SELECT  title, movie_id FROM movies WHERE movie_id =" + movie_id)
+    cur.execute("SELECT movie_id, title FROM movies WHERE movie_id =" + movie_id)
     lst = cur.fetchone()
     cur.close()
     cnx.close()
@@ -111,18 +111,17 @@ def get_genre():
     """connect to db, return list of all genres in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT genre FROM movies")   #sql query to return all genres
+    cur.execute("SELECT DISTINCT genre FROM genres")   #sql query to return all genres
     lst = cur.fetchall()
     cur.close()
     cnx.close()
     return lst
-    
+
 def get_profile_names_and_photos():
-    
+
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT name, photo_link FROM profile limit 100")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
     return lst
-
