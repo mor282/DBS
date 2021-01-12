@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+<div style="color:white; text-align:center; font-size:20px;">
+	<p style="font-size:30px; font-family:castellar;">Find movies by key words</p>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelector('#submit').disabled = true;
+
+      document.querySelector('#words').onkeyup = () => {
+        if (document.querySelector('#words').value.length > 0)
+          document.querySelector('#submit').disabled = false;
+        else
+          document.querySelector('#submit').disabled = true;
+      };
+    });
+  </script>
+	<form name="myForm" action="{{url_for('movies_by_words')}}" method = "post">
+	  <label for="name" style="font-family:candara light;">ENTER KEY WORDS SEPERATED BY A COMMA (,):</label>
+	  <input type="text" id="words" name="words">
+	  <input type="submit" id = "submit" value="Search">
+	</form>
+</div>
+
+{% endblock %}

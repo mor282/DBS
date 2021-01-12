@@ -47,6 +47,15 @@ def search_profile_by_name():
     name = request.form.get("name")
     return render_template("search_bu_name_results.html")
 
+@app.route("/find_movie_by_key_words")
+def find_movie_by_key_words():
+    return render_template("find_movie_by_key_words.html")
+
+@app.route('/movies_by_words', methods=["post"])
+def movies_by_words():
+    text = request.form.get(words);
+    words = text.split(",");
+    n = len(words);
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
