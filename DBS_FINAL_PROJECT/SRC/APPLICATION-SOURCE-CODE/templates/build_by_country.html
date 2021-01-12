@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+  document.querySelector('#movie_sel').onchange = () => {
+    const movie_id = document.querySelector('#movie_sel').value;
+    fetch('build_by_movie/' + movie_id).then(response => {
+      response.json().then(data => {
+        for (role of data.movie_roles){
+          var para = document.createElement("OPTION");
+          para.setAttribute("value",role.id)
+          var t = document.createTextNode( role.id );
+          para.appendChild(t);
+          document.getElementById('role').appendChild(para);
+        }
+      });
+    });
+  }
+});
+</script>
+
+<div class = "container">
+  <link rel="stylesheet" type="text/css" href = "../static/style2.css">
+  <h3 style = "color:white; text-align: center;">select role and movie and we will find the person</h3>
+  <form action = "/build_by_movie_results" method = "post" >
+    <div class="form-group row">
+      <div class="col-4">
+        <select class = "form-control" id = 'movie_sel' name = "movie_id">
+          <option value="" disabled selected hidden>Select movie</option>
+          {% for movie in movies_lst %}
+            <option value = "{{ movie[0] }}" > {{ movie[1] }} </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-4" >
+        <select class = "form-control" id="role" name = "role" ></select>
+      </div>
+      <div class="col-1">
+        <div class="form-group">
+          <button class="btn btn-outline-info" id='Search' >Search</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
