@@ -8,12 +8,12 @@
 <div style="color:white; text-align:center; font-size:20px;">
 	<p style="font-size:30px; font-family:castellar;">Choose the perfect people for your crew!</p>
 
-	<form name="myForm" action="/action_page.php" method="get">
+	<form name="myForm" action="/search_profile_by_name" method="post">
 	  <label for="name" style="font-family:candara light;">Search by name:</label>
 	  <input type="text" id="fname" name="name">
 	  <input type="submit" value="Search">
 	</form>
-	
+
 	<p style="font-family:candara light; font-size:30px">OR</p>
 
 	<form action="/get_all_profiles" method="post">
@@ -23,7 +23,7 @@
 			<option value="male">Male</option>
 			<option value="female">Female</option>
 	  </select>
-	  
+
 	  <label style="font-family:candara light;">Profession:</label>
 	  <select id="roles" name="roles">
 			<option value="all">All</option>
@@ -31,7 +31,7 @@
             <option value = "{{ r[0] }}" > {{r[0]}} </option>
 				{% endfor %}
 	  </select>
-	  
+
 	    <label style="font-family:candara light;">Popularity:</label>
 	  <select id="roles" name="roles">
 	   <option value="all">All</option>
@@ -47,16 +47,16 @@
 		<option value="10">10+</option>
 		<option value="15">15+</option>
 	  </select>
-	  
+
 	  <br><br>
-	  
+
 	  <label for="gender" style="font-family:candara light;">Order by:</label>
 	  <select name="orderby" id="orderby">
 		<option value="popularity">Popularity</option>
 		<option value="age">Age</option>
 		<option value="age">Name</option>
 	  </select>
-  
+
   <input type="submit" value="Search">
 </form>
 </div>

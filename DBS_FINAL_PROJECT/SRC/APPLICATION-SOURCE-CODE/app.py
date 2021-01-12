@@ -42,6 +42,11 @@ def build_by_movie_results():
     res =  queries.get_profiles_by_role_and_movie(role,movie_id)
     return render_template('build_by_movie_results.html',res = res,movies_lst = movies_lst)
 
+@app.route("/search_profile_by_name", methods=["POST"])
+def search_profile_by_name():
+    name = request.form.get("name")
+    return render_template("search_bu_name_results.html")
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
