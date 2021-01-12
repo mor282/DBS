@@ -44,12 +44,11 @@ def get_profiles_by_role_and_movie(role,movie_id):
     movie -- the
     """
     cnx,cur = connect_to_db()
-    query = ("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
-            "FROM profile, movie_crew "
-            "WHERE movie_crew.profile_id = profile.profile_id AND "
-            "movie_crew.movie_id = %s AND "
-            "movie_crew.role = %s " )
-    cur.execute(query,(movie_id,role))
+    cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
+                "FROM profile, movie_crew "
+                "WHERE movie_crew.profile_id = profile.profile_id AND "
+                "movie_crew.movie_id = " + str(movie_id) + " AND "
+                "movie_crew.role LIKE '%" + role + "%'")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -71,7 +70,7 @@ def get_all_movies():
     """connect to db, return list of all movies in our database"""
 
     cnx,cur = connect_to_db()       #get connection with db
-    cur.execute("SELECT  title, movie_id FROM movies")
+    cur.execute("SELECT  movie_id, title FROM movies")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -184,3 +183,7 @@ def get_profiles_by_role_and_counrty(role,country_id):
                 "movie_crew.movie_id = locations.movie_id "  " AND " +
                 "locations.location_id = " + str(county_id) +
                 "movie_crew.role LIKE '%" + role + "%'")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
