@@ -1,9 +1,22 @@
 {% extends "layout.html" %}
 {%block body%}
-<div>
+<div style="color:black; text-align:center; font-size:20px;" >
 	    <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+		{% if size2 == 0%}
+		<h1>There are no people matching your requirments, please try again! </h1>
+		{% endif %}
 
+		{% if size2 > 0 %}
+		<h1>Here is a list of {{size2}} people who match your requirments:</h1>
+
+		{% for name in lst2 %}
+			<p style="font-size:30px; font-family:castellar; text-align:center" class="popup" onclick="myFunction()">{{name[0]}}
+			  <span class="popuptext" id="myPopup" style="font-family:candara light; font-size:20px;">{{name[2]}}</span>
+			  <h1><img src={{name[1]}} width="150" height="200"></h1>
+			</p>
+
+		{% endfor %}
+		{% endif %}
 </div>
-
 
 {% endblock %}

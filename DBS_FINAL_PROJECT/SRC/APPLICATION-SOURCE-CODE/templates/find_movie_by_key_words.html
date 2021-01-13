@@ -17,8 +17,8 @@
       };
     });
   </script>
-	<form name="myForm" action="{{url_for('movies_by_words')}}" method = "post">
-	  <label for="name" style="font-family:candara light;">ENTER KEY WORDS SEPERATED BY A COMMA (,):</label>
+	<form name="myForm" action='/movies_by_words' method = "post">
+	  <label for="name" style="font-family:candara light;">ENTER UP TO 3 KEY WORDS SEPERATED BY A COMMA (,):</label>
 	  <input type="text" id="words" name="words">
 	  <input type="submit" id = "submit" value="Search">
 	</form>
