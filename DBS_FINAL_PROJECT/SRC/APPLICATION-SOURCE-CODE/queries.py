@@ -135,7 +135,7 @@ def get_profile_by_search(role,gender,pop,orderby):
     
     if gender =="All" and not role == "All":
         values = (role, pop, orderby)
-        cur.execute("SELECT name, photo_link, biography FROM profile WHERE main_department = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
+        cur.execute("SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
             
     if not gender == "All" and role =="All":
         values = (gender, pop, orderby)
@@ -143,7 +143,7 @@ def get_profile_by_search(role,gender,pop,orderby):
      
     if not gender =="All" and not role=="All":
         values = (gender, role, pop, orderby)
-        cur.execute("SELECT name, photo_link, biography FROM profile WHERE gender = %s and main_department = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
+        cur.execute("SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and gender = %s and department.role = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
         
     if gender=="All" and role=="All":
         values = (pop, orderby)

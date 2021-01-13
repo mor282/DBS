@@ -14,7 +14,7 @@ def index():
     
 @app.route("/profiles")
 def profiles():
-    roles = queries.get_main_department()
+    roles = queries.get_all_roles()
     lst = queries.get_profile_names_and_photos()
     return render_template('profiles.html', roles=roles, lst=lst)
     
