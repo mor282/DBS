@@ -2,17 +2,18 @@
 
 
 {% block body %}
-<link rel="stylesheet" type="text/css" href = "../static/style2.css">
 <script>
-document.addEventListener("DOMContentLoaded", ()=>{
-  document.querySelector('#movie_sel').onchange = () => {
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('Search').disabled = true;
+  document.getElementById('movie_sel').addEventListener('change' , () => {
+    document.getElementById('Search').disabled = false;
     const movie_id = document.querySelector('#movie_sel').value;
     var select = document.getElementById("role");
     var length = select.options.length;
     for (i = length-1; i >= 0; i--) {
       select.options[i] = null;
     }
-    fetch('build_by_movie/' + movie_id).then(response => {
+    fetch('build_by_movie/' + movie_id , {method: 'POST' }).then(response => {
       response.json().then(data => {
         for (role of data.movie_roles){
           var para = document.createElement("OPTION");
@@ -23,11 +24,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
       });
     });
-  }
+  });
 });
 </script>
 
 <div class = "container">
+  <link rel="stylesheet" type="text/css" href = "../static/style2.css">
   <h3 style = "color:white; text-align: center;">select role and movie and we will find the person</h3>
   <form action = "/build_by_movie_results" method = "post" >
     <div class="form-group row">

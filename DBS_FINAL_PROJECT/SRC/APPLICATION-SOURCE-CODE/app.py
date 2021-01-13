@@ -40,7 +40,7 @@ def build_by_movie():
     movies_lst = queries.get_all_movies()
     return render_template('build_by_movie.html', movies_lst = movies_lst)
 
-@app.route("/build_by_movie/<movie_id>")
+@app.route("/build_by_movie/<movie_id>" , methods=["POST"])
 def build_by_movie_role(movie_id):
     roles = queries.get_movie_roles(movie_id)
     rolesArray=[]
@@ -64,7 +64,7 @@ def build_by_country():
     country_lst = queries.get_countries()
     return render_template('build_by_country.html', country_lst = country_lst)
 
-@app.route("/build_by_country/<country>")
+@app.route("/build_by_country/<country>", methods=["POST"])
 def build_by_country_role(country):
     roles = queries.get_country_roles(country)
     rolesArray=[]
@@ -88,10 +88,11 @@ def find_movie_by_key_words():
 
 @app.route('/movies_by_words', methods=["post"])
 def movies_by_words():
-    text = request.form.get(words);
+    text = request.form.get('words');
     words = text.split(",");
     n = len(words);
-    return False
+    print(words)
+    return render_template("movies_by_words.html")
 
 
 if __name__ == '__main__':
