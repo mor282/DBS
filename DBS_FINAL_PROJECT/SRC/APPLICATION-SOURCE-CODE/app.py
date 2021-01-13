@@ -31,8 +31,8 @@ def profiles_res():
     gender = request.form.get("gender")
     pop = request.form.get("pop")
     orderby = request.form.get("orderby")
-    lst = queries.get_profile_by_search(role,gender,pop,orderby)
-    return render_template('profiles_res.html')
+    lst2,size2 = queries.get_profile_by_search(role,gender,pop,orderby)
+    return render_template('profiles_res.html', lst2=lst2, size2=size2)
 
 # this section is associated to search profiles by movies
 @app.route("/build_by_movie")

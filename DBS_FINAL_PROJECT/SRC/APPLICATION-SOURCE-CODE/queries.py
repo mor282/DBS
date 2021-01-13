@@ -130,22 +130,31 @@ def get_profile_by_search(role,gender,pop,orderby):
 
     cnx,cur = connect_to_db()             #get connection with db
 
-    orderby = "ORDER BY " + orderby
+    orderby = " ORDER BY " + orderby
+    query = "popularity > " + pop
 
-    if gender =="" and not role == "":
-        query = "main_department = " + role + " and popularity >" + pop
+    if gender =="All" and not role == "All":
+        values = (role, pop, orderby)
+        cur.execute("SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
 
-    if not gender == "" and role =="":
-        query = "gender=" + gender + " and popularity >" + pop
+    if not gender == "All" and role =="All":
+        values = (gender, pop, orderby)
+        cur.execute("SELECT name, photo_link, biography FROM profile WHERE gender = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
 
-    if not gender =="" and not role=="":
-        query = "gender="+gender+" and main_department="+role+" and popularity >" + pop
+    if not gender =="All" and not role=="All":
+        values = (gender, role, pop, orderby)
+        cur.execute("SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and gender = %s and department.role = %s and popularity > %s ORDER BY %s LIMIT 100" , values)
 
-    cur.execute("SELECT name, photo_link, biography FROM profile WHERE " +query+ " limit 100")
+    if gender=="All" and role=="All":
+        values = (pop, orderby)
+        cur.execute("SELECT name, photo_link, biography FROM profile WHERE popularity > %s ORDER BY %s LIMIT 100" , values)
+
+    #cur.execute("SELECT name, photo_link, biography FROM profile WHERE " + query + orderby + " limit 100 ")
     lst = cur.fetchall()
+    size = len(lst)
     cur.close()
     cnx.close()
-    return lst
+    return lst,size
 
 def get_profile_by_name(name):
 
@@ -188,6 +197,14 @@ def get_profiles_by_role_and_counrty(role,country):
                 "movie_crew.movie_id = locations.movie_id "  " AND " +
                 "locations.country LIKE '%" +country + "%' AND "
                 "movie_crew.role LIKE '%" + role + "%'")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_main_department():
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT distinct main_department FROM profile WHERE main_department is not null")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
