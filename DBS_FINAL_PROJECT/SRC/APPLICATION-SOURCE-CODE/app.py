@@ -14,18 +14,18 @@ def index():
     
 @app.route("/profiles")
 def profiles():
-    roles = queries.get_all_roles()
+    roles = queries.get_main_department()
     lst = queries.get_profile_names_and_photos()
     return render_template('profiles.html', roles=roles, lst=lst)
     
-@app.route("/profiles_res",methods=["POST"])
-def profiles_res():
+@app.route("/profiles_results",methods=["POST"])
+def profiles_results():
     role = request.form.get("role")
     gender = request.form.get("gender")
     pop = request.form.get("pop")
     orderby = request.form.get("orderby")
-    lst = queries.get_profile_by_search(role,gender,pop,orderby)
-    return render_template('profiles_res.html')
+    lst2,size2 = queries.get_profile_by_search(role,gender,pop,orderby)
+    return render_template('profiles_res.html', lst2=lst2, size2=size2)
 
 @app.route("/build_by_movie")
 def build_by_movie():
