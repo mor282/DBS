@@ -2,13 +2,18 @@
 {% block body %}
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
-  document.querySelector('#movie_sel').onchange = () => {
-    const movie_id = document.querySelector('#movie_sel').value;
-    fetch('build_by_movie/' + movie_id).then(response => {
+  document.querySelector('#country_sel').onchange = () => {
+    const country = document.querySelector('#country_sel').value;
+    var select = document.getElementById("role");
+    var length = select.options.length;
+    for (i = length-1; i >= 0; i--) {
+      select.options[i] = null;
+    }
+    fetch('build_by_country/' + country ).then(response => {
       response.json().then(data => {
-        for (role of data.movie_roles){
+        for (role of data.country_roles){
           var para = document.createElement("OPTION");
-          para.setAttribute("value",role.id)
+          para.setAttribute("value", role.id)
           var t = document.createTextNode( role.id );
           para.appendChild(t);
           document.getElementById('role').appendChild(para);
@@ -22,13 +27,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
 <div class = "container">
   <link rel="stylesheet" type="text/css" href = "../static/style2.css">
   <h3 style = "color:white; text-align: center;">select role and movie and we will find the person</h3>
-  <form action = "/build_by_movie_results" method = "post" >
+  <form action = "/build_by_country_results" method = "post" >
     <div class="form-group row">
       <div class="col-4">
-        <select class = "form-control" id = 'movie_sel' name = "movie_id">
+        <select class = "form-control" id = 'country_sel' name = "country">
           <option value="" disabled selected hidden>Select movie</option>
-          {% for movie in movies_lst %}
-            <option value = "{{ movie[0] }}" > {{ movie[1] }} </option>
+          {% for country in country_lst %}
+            <option value = "{{ country[0] }}" > {{ country[0] }} </option>
           {% endfor %}
         </select>
       </div>

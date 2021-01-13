@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
 <script>
-document.addEventListener("DOMContentLoaded", ()=>{
-  document.querySelector('#movie_sel').onchange = () => {
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('movie_sel').addEventListener('change' , () => {
     const movie_id = document.querySelector('#movie_sel').value;
+    var select = document.getElementById("role");
+    var length = select.options.length;
+    for (i = length-1; i >= 0; i--) {
+      select.options[i] = null;
+    }
     fetch('build_by_movie/' + movie_id).then(response => {
       response.json().then(data => {
         for (role of data.movie_roles){
@@ -15,8 +20,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
       });
     });
-  }
+  });
 });
+
 </script>
 
 <div class = "container">

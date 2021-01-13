@@ -59,7 +59,7 @@ def get_countries():
     """connect to db, return list of all countries in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT country, location_id FROM locations")
+    cur.execute("SELECT DISTINCT country FROM locations")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -158,30 +158,35 @@ def get_profile_by_name(name):
     return lst,size
 
 
-def get_country_roles(country_id):
+def get_country_roles(country):
+    """
+    retrun list all roles available in country names
 
+    keyword arguments
+    country -- the country we look at
+    """
     cnx,cur = connect_to_db()
-    cur.execute("SELECT  DISTINCT role FROM movie_crew, locations " +
-    "WHERE locations.location_id = " + str(county_id) + " AND locations.movie_id = movie_crew.movie_id")
+    cur.execute("SELECT  DISTINCT role FROM locations, movie_crew  "
+    "WHERE locations.country LIKE '%" + country + "%' AND locations.movie_id = movie_crew.movie_id")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
     return lst
 
-def get_profiles_by_role_and_counrty(role,country_id):
+def get_profiles_by_role_and_counrty(role,country):
     """
     return an iterator of profiles.
 
     keyword arguments:
     role -- the role we are looking
-    movie -- the
+    country -- the coutry we look roles at
     """
     cnx,cur = connect_to_db()
     cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "+
                 "FROM profile, movie_crew, locations " +
                 "WHERE movie_crew.profile_id = profile.profile_id AND " +
                 "movie_crew.movie_id = locations.movie_id "  " AND " +
-                "locations.location_id = " + str(county_id) +
+                "locations.country LIKE '%" +country + "%' AND "
                 "movie_crew.role LIKE '%" + role + "%'")
     lst = cur.fetchall()
     cur.close()
