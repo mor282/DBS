@@ -91,8 +91,11 @@ def movies_by_words():
     text = request.form.get('words');
     words = text.split(",");
     n = len(words);
-    print(words)
-    return render_template("movies_by_words.html")
+    for word in words :
+        if(not word.isalpha()):
+            return render_template("movies_by_words_invalid.html")
+    res,size = queries.get_movies_by_words(words)
+    return render_template("movies_by_words.html", res = res, size=size)
 
 
 if __name__ == '__main__':

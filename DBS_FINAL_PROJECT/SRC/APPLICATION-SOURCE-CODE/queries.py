@@ -209,3 +209,25 @@ def get_main_department():
     cur.close()
     cnx.close()
     return lst
+
+
+def get_movies_by_words(words):
+    """
+    return a list of movies that includes the given words in their overview.
+
+    keyword arguments:
+    words -- list of words given by the user.
+    """
+    cnx,cur = connect_to_db()
+    text = "'";
+    for word in words:
+        text += "+"+word+" "
+    text += "'"
+    print(text)
+    cur.execute("SELECT * FROM movies "
+                "Where match(overview) against("+text+" IN BOOLEAN MODE) LIMIT 100 ")
+    lst = cur.fetchall()
+    size = len(lst)
+    cur.close()
+    cnx.close()
+    return lst,size
