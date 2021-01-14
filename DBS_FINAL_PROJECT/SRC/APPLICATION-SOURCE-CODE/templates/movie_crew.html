@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+<a style="text-align:center; font-size:30px;" href="{{url_for( 'find_movie_by_key_words' )}}">  CLICK HERE FOR NEW SEARCH </a>
+<h1 style="color:white; text-align:center; font-size:30px;">Here is a list of {{title}}'s crew</h1>
+
+{% for profile in res %}
+<div class="container out" >
+  <div class="row full">
+    <div class="col-sm-2">
+      <img src={{profile[7]}} width="150" height="200" >
+    </div>
+    <div class="col-sm-4" style="color:white;">
+      <div class="container">
+        <div class="row" style="font-family:candara light;">
+          <h1 id="{{profile[1]}}" style=" font-size:30px; text-align:center;">{{profile[1]}}</h1>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row" style="font-family:candara light; text-align:left;">
+          <p style="font-family:candara light; font-size:20px;">main department: {{profile[4]}}<br/>
+            Age: {{profile[3]}}<br/>
+            popularity: {{profile[5]}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div style="color:white; font-family:candara light;">
+        <p style ="margin-top: 10px;">biography: {{profile[6]}} </p>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+
+.full{
+  margin-top: 10px;
+}
+
+.out {
+  outline: 2px solid white;
+}
+
+</style>
+</div>
+
+{% endfor %}
+
+
+{% endblock %}
