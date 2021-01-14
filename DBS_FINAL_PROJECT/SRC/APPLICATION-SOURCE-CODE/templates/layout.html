@@ -8,8 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <title>CREW-MAKE</title>
-    {% block head %}{% endblock %}
+    <title>THE CREW BUiLDER</title>
   </head>
   <body>
 
@@ -19,12 +18,13 @@
 			<h1 style="color:white; text-align:center; font-family:algerian; font-size:50px; background-color:black;">
 				CREW-MAKE(R) </h1>
 			<h2 style="font-family:bradley hand ITC; text-align:center; color:white;">
-				Temporarily Request Page - just for testing it can be modified later</h2>
+				Home Page</h2>
 			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
 			<i class="fa fa-bars"></i>
-      <a href="{{url_for('home')}}">Home</a>
-			<a href="{{url_for('index')}}"  class="active">Request</a>
-			<a href="crew_list.html">Crew List</a>
+      <a href="{{url_for('home')}}" class="active">Home</a>
+			<a href="{{url_for('index')}}">Request</a>
+			<a href="{{url_for('search')}}">Search</a>
+			<a href="{{url_for('profiles')}}">Profiles</a>
 			<a href="about.html">About</a>
 			</a>
 	  </div>
