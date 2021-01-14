@@ -209,3 +209,8 @@ def get_main_department():
     cur.close()
     cnx.close()
     return lst
+
+
+# this is a utility function for the full-text-query, to check users input
+def check_words(words):
+    for word in words :

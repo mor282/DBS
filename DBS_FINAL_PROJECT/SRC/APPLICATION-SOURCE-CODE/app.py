@@ -91,6 +91,7 @@ def movies_by_words():
     text = request.form.get('words');
     words = text.split(",");
     n = len(words);
+    res = queries.check_words(words)
     print(words)
     return render_template("movies_by_words.html")
 
