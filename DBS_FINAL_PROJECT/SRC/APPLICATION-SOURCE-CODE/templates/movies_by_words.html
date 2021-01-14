@@ -8,10 +8,11 @@
 		{% endif %}
 
 		{% if size > 0 %}
+    <a style="text-align:center; font-size:30px;" href="{{url_for( 'find_movie_by_key_words' )}}">  CLICK HERE FOR NEW SEARCH </a>
 		<h1>Here is a list of {{size}} movies who match your requirments:</h1>
 
 		{% for movie in res %}
-    <div class="container">
+    <div class="container out" >
       <div class="row full">
         <div class="col-sm-2">
           <img src={{movie[6]}} width="150" height="200" >
@@ -42,6 +43,10 @@
 
     .full{
       margin-top: 10px;
+    }
+
+    .out {
+      outline: 2px solid white;
     }
 
     </style>
