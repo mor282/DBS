@@ -223,7 +223,6 @@ def get_movies_by_words(words):
     for word in words:
         text += "+"+word+" "
     text += "'"
-    print(text)
     cur.execute("SELECT * FROM movies "
                 "Where match(overview) against("+text+" IN BOOLEAN MODE) LIMIT 100 ")
     lst = cur.fetchall()
@@ -231,3 +230,14 @@ def get_movies_by_words(words):
     cur.close()
     cnx.close()
     return lst,size
+
+def get_movie_crew(movie_id):
+    cnx,cur = connect_to_db()
+    cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
+                "FROM profile, movie_crew "
+                "WHERE movie_crew.profile_id = profile.profile_id AND "
+                'movie_crew.movie_id = ' + str(movie_id))
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst

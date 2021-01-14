@@ -97,6 +97,14 @@ def movies_by_words():
     res,size = queries.get_movies_by_words(words)
     return render_template("movies_by_words.html", res = res, size=size)
 
+@app.route('/movie_crew',methods=["POST"])
+def movie_crew():
+    movie_id = request.form.get('movie_id')
+    movie = queries.get_movie(movie_id=movie_id)
+    title = movie[0]
+    res =  queries.get_movie_crew(movie_id)
+    return render_template("movie_crew.html", res = res,title=title)
+
 
 if __name__ == '__main__':
     app.run(debug = True)
