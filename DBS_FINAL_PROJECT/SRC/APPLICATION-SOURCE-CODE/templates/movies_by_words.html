@@ -1,1 +1,53 @@
 {% extends "layout.html" %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+
+  <div style="color:white; text-align:center; font-size:20px;" >
+		{% if size == 0%}
+		<a style="text-align:center; font-size:30px;" href="{{url_for( 'find_movie_by_key_words' )}}">  There are no movies matching your requirments, please click here and try again!  </a>
+		{% endif %}
+
+		{% if size > 0 %}
+		<h1>Here is a list of {{size}} movies who match your requirments:</h1>
+
+		{% for movie in res %}
+    <div class="container">
+      <div class="row full">
+        <div class="col-sm-2">
+          <img src={{movie[6]}} width="150" height="200" >
+        </div>
+        <div class="col-sm-6" style="color:white;">
+          <div class="container">
+            <div class="row" style="font-family:candara light;">
+              <h1 id="{{movie[1]}}" style=" font-size:30px; text-align:center;">{{movie[1]}}</h1>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row" style="font-family:candara light; text-align:left;">
+              <p style="font-family:candara light; font-size:20px;">{{movie[8]}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div style="font-family:candara light;">
+            <p style ="margin-top: 10px;">The film was released in {{movie[7]}}<br/>
+              The Movie budget was {{movie[2]}}$<br/>
+              And its revenue was {{movie[3]}}$
+            </p>
+          </div
+        </div>
+      </div>
+    </div>
+    <style>
+
+    .full{
+      margin-top: 10px;
+    }
+
+    </style>
+  </div>
+
+	{% endfor %}
+  {% endif %}
+
+{% endblock %}
