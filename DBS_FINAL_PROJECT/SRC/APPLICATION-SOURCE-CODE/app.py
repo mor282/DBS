@@ -12,6 +12,14 @@ def home():
 def index():
     return render_template('index.html')
     
+@app.route("/search")
+def search():
+    lst = queries.get_department()
+    languages = queries.get_languages()
+    countries = queries.get_countries()
+    genres = queries.get_genre()
+    return render_template('regular_search.html',lst=lst, languages=languages, countries=countries, genres=genres)
+    
 @app.route("/profiles")
 def profiles():
     roles = queries.get_all_roles()

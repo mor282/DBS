@@ -60,7 +60,7 @@ def get_countries():
     """connect to db, return list of all countries in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT country, location_id FROM locations")
+    cur.execute("SELECT DISTINCT country FROM locations order by country")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -111,7 +111,7 @@ def get_genre():
     """connect to db, return list of all genres in our database"""
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT DISTINCT genre FROM movies")   #sql query to return all genres
+    cur.execute("SELECT DISTINCT genre FROM genres")   #sql query to return all genres
     lst = cur.fetchall()
     cur.close()
     cnx.close()
@@ -149,7 +149,6 @@ def get_profile_by_search(role,gender,pop,orderby):
         values = (pop, orderby)
         cur.execute("SELECT name, photo_link, biography FROM profile WHERE popularity > %s ORDER BY %s LIMIT 100" , values)
         
-    #cur.execute("SELECT name, photo_link, biography FROM profile WHERE " + query + orderby + " limit 100 ")
     lst = cur.fetchall()
     size = len(lst)
     cur.close()
@@ -168,7 +167,32 @@ def get_profile_by_name(name):
     
 def get_main_department():
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT distinct main_department FROM profile WHERE main_department is not null")
+    cur.execute("SELECT distinct main_department FROM profile")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+    
+def get_department():
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT distinct department FROM department")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+
+def get_roles_of_department(depart):
+    cnx,cur = connect_to_db()             #get connection with db
+    values = (depart,)
+    cur.execute("SELECT role FROM department WHERE department = %s ", values)
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
+    
+def get_languages():
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("SELECT distinct language FROM movies")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
