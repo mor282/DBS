@@ -16,3 +16,8 @@ body {
   text-align: center;
   color: white
 }
+
+.center{
+	left: 50%;
+
+}

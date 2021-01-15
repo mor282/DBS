@@ -246,14 +246,13 @@ def get_female_diversity_movies_lst():
     """
     returnd female ratio in movie crew for all movies  or NULL if data is missing.
 
- 
+
     """
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT movies.movie_id, movies.title as title, COUNT(IF(profile.gender='1',1,NULL)) / NULLIF(COUNT(IF(profile.gender='1',1,NULL))+COUNT(IF(profile.gender='2',1,NULL)), 0) as ratio"
-    + "FROM movie_crew, profile, movies " + " WHERE  profile.profile_id = movie_crew.profile_id AND movie_crew.movie_id = movies.movie_id "
-    + " GROUP BY movies.movie_id" + " HAVING ratio >= 0 ")
+    + " FROM movie_crew, profile, movies WHERE profile.profile_id = movie_crew.profile_id AND movie_crew.movie_id = movies.movie_id "
+    + " GROUP BY movies.movie_id HAVING ratio >= 0 ")
     lst = cur.fetchall()
     cur.close()
     cnx.close()
     return lst
-
