@@ -11,7 +11,7 @@ def home():
 @app.route("/index")
 def index():
     return render_template('index.html')
-
+    
 @app.route("/search")
 def search():
     lst = queries.get_department()
@@ -19,14 +19,13 @@ def search():
     countries = queries.get_countries()
     genres = queries.get_genre()
     return render_template('regular_search.html',lst=lst, languages=languages, countries=countries,genres=genres)
-
+    
 @app.route("/search_results", methods=["POST"])
 def search_results():
-    members = request.form.get("number")
     depart = request.form.get("depart")
     agefrom = request.form.get("from")
     ageto = request.form.get("to")
-    valid = ageto >= agefrom
+    valid = (ageto >= agefrom) 
     if ageto < '0':
         valid = False
     gender = request.form.get("gender")
@@ -37,15 +36,15 @@ def search_results():
     genre = request.form.getlist("genre")
     sizegenre = len(genre)
     orderby = request.form.get("orderby")
-    results,length = queries.get_all(members,depart,agefrom,ageto,gender,pop,lang,country,genre,orderby)
-    return render_template('search_res.html', members=members, lang=lang, sizelang=sizelang, valid=valid, genre=genre, sizegenre=sizegenre, results=results, length=length)
-
+    results,length = queries.get_all(depart,agefrom,ageto,gender,pop,lang,country,genre,orderby)
+    return render_template('search_res.html', lang=lang, sizelang=sizelang, valid=valid, genre=genre, sizegenre=sizegenre, results=results, length=length)
+    
 @app.route("/profiles")
 def profiles():
     roles = queries.get_all_roles()
     lst = queries.get_profile_names_and_photos()
     return render_template('profiles.html', roles=roles, lst=lst)
-
+    
 @app.route("/profiles_results",methods=["POST"])
 def profiles_results():
     role = request.form.get("role")

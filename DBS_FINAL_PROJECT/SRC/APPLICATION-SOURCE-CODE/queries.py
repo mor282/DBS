@@ -116,9 +116,9 @@ def get_genre():
     cur.close()
     cnx.close()
     return lst
-
+    
 def get_profile_names_and_photos():
-
+    
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT name, photo_link, biography FROM profile limit 100")
     lst = cur.fetchall()
@@ -127,36 +127,36 @@ def get_profile_names_and_photos():
     return lst
 
 def get_profile_by_search(role,gender,pop,orderby):
-
+    
     cnx,cur = connect_to_db()             #get connection with db
 
     orderby = " ORDER BY " + orderby
-    query = "popularity > " + pop
-
+    query = "popularity > " + pop 
+    
     if gender =="All" and not role == "All":
         values = (role, pop, orderby)
         cur.execute("SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity >= %s ORDER BY %s LIMIT 100" , values)
-
+            
     if not gender == "All" and role =="All":
         values = (gender, pop, orderby)
         cur.execute("SELECT name, photo_link, biography FROM profile WHERE gender = %s and popularity >= %s ORDER BY %s LIMIT 100" , values)
-
+     
     if not gender =="All" and not role=="All":
         values = (gender, role, pop, orderby)
         cur.execute("SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and gender = %s and department.role = %s and popularity >= %s ORDER BY %s LIMIT 100" , values)
-
+        
     if gender=="All" and role=="All":
         values = (pop, orderby)
         cur.execute("SELECT name, photo_link, biography FROM profile WHERE popularity >= %s ORDER BY %s LIMIT 100" , values)
-
+        
     lst = cur.fetchall()
     size = len(lst)
     cur.close()
     cnx.close()
     return lst,size
-
+    
 def get_profile_by_name(name):
-
+    
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT name, photo_link, biography FROM profile WHERE name LIKE '%"+name+"%' limit 100")
     lst = cur.fetchall()
@@ -164,7 +164,7 @@ def get_profile_by_name(name):
     cur.close()
     cnx.close()
     return lst,size
-
+    
 def get_main_department():
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT distinct main_department FROM profile")
@@ -172,7 +172,7 @@ def get_main_department():
     cur.close()
     cnx.close()
     return lst
-
+    
 def get_department():
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT distinct department FROM department")
@@ -189,7 +189,7 @@ def get_roles_of_department(depart):
     cur.close()
     cnx.close()
     return lst
-
+    
 def get_languages():
     cnx,cur = connect_to_db()             #get connection with db
     cur.execute("SELECT distinct language FROM movies")
@@ -197,33 +197,65 @@ def get_languages():
     cur.close()
     cnx.close()
     return lst
-
-def get_all(members,depart,agefrom,ageto,gender,pop,lang,country,genre,orderby):
+    
+def get_all(depart,agefrom,ageto,gender,pop,lang,country,genre,orderby):
 
     cnx,cur = connect_to_db()             #get connection with db
     lst=""
-    if (members < '1' or agefrom > ageto or ageto < '0' or len(genre) == 0 or len(lang) == 0):
+    if (agefrom > ageto or ageto < '0' or len(genre) == 0 or len(lang) == 0):
         cur.close()
         cnx.close()
-        return lst,0
+        return lst,-1
 
     list = []
-    query = "SELECT DISTINCT profile.name, department.role, profile.biography, profile.popularity, profile.age, profile.photo_link, movies.title, genres.genre FROM profile, movie_crew, department, movies, locations, genres WHERE"
+    query = "SELECT DISTINCT profile.name, profile.biography, profile.popularity, profile.age, profile.photo_link FROM profile, movie_crew, department, movies, locations, genres WHERE"
 
-   # if (agefrom < '2' and ageto > '99') == False:
-    #    query = query + " age > %s and age < %s and"
-     #   list.append(int(agefrom))
-      #  list.append(int(ageto))
+    if agefrom > '1' or ageto < '99':
+        query = query + " age > %s and age < %s and"
+        list.append(agefrom)
+        list.append(ageto)
+        
+    if depart != 'all':
+        query = query + " department = %s and"
+        list.append(depart)
 
+    if gender != 'both':
+        query = query + " gender = %s and"
+        list.append(gender)
+        
+    if lang[0] != 'all' and len(lang) < 14:
+        query = query + " ("
+        for l in lang[:-1]:
+            query = query + "language = %s or "
+            list.append(l)
+        query = query + "language = %s ) and"
+        list.append(lang[-1])
+    
+    if country != 'all':
+        query = query + " country = %s and"
+        list.append(country)
+        
+    if genre[0] != 'all' and len(genre) < 19:
+        query = query + " ("
+        for g in genre[:-1]:
+            query = query + "genre = %s or "
+            list.append(g)
+        query = query + "genre = %s ) and"
+        list.append(genre[-1])
 
+    query = query + " popularity >= %s AND profile.profile_id = movie_crew.profile_id AND department.role = movie_crew.role AND movies.movie_id = movie_crew.movie_id AND movies.movie_id = locations.movie_id AND movies.movie_id = genres.movie_id ORDER BY %s DESC LIMIT 100"
 
-    query = query + " popularity >= %s AND profile.profile_id = movie_crew.profile_id AND department.role = movie_crew.role AND movies.movie_id = movie_crew.movie_id AND movies.movie_id = locations.movie_id AND movies.movie_id = genres.movie_id ORDER BY %s LIMIT 10000"
-
-    list.append(pop) #should be append(pop)
-    list.append(orderby) #should be append(orderby)
+    list.append(pop) 
+    list.append(orderby)    
     values = tuple(list)
     cur.execute(query,values)
     lst = cur.fetchall()
     cur.close()
     cnx.close()
-    return lst,len(lst)+1
+    return lst,len(lst)
+
+
+
+
+
+
