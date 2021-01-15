@@ -200,5 +200,11 @@ def movie_crew():
     return render_template("movie_crew.html", res = res,title=title)
 
 
+@app.route("/diversity_by_movie")
+def build_diversity():
+    movies_lst = queries.get_female_diversity_movies_lst()
+    return render_template('diversity_by_movie.html', movies_lst = movies_lst)
+
+
 if __name__ == '__main__':
     app.run(debug = True)
