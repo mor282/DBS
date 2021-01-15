@@ -8,7 +8,7 @@
 		<h1> Crew parameters: </h1>
 		<li>
 			<label>Number of crew members:</label>
-			<input type="number" id="number" name="number" value="1"> 
+			<input type="number" id="number" name="number" value="1">
 		</li>
 		<li>
 				<label>Department:</label>
@@ -22,12 +22,12 @@
 		<li>
 			<label>Age:</label>
 			<label>from: <input type="number" id="from" name="from" value="1"></label>
-			<label>to: <input type="number" id="to" name="to" value="100"></label> 
+			<label>to: <input type="number" id="to" name="to" value="100"></label>
 		</li>
 		<p style="color:red; font-size:20px;">* if you don't wish to filter by age, filter by 1 to 100</p>
 		<li>
 			<label name="gender">Gender: </label>
-			<select>
+			<select name="gender">
 				<option value="both">Both</option>
 				<option value="0">Only males</option>
 				<option value="1">Only females</option>
@@ -35,7 +35,7 @@
 		</li>
 		<li>
 			<label name="pop">Popularity: </label>
-			<select>
+			<select name="pop">
 				<option value="0">All</option>
 				<option value="1">1+</option>
 				<option value="2">2+</option>
@@ -56,7 +56,7 @@
 				<label><input type="checkbox" name="lang" value="{{lan[0]}}">{{lan[0]}}
 				</input></label>
 						{% endfor %}
-		</li>  
+		</li>
 		<li><label>Country:</label>
 			<select name="country" id="cauntry">
 				<option value="All">All</option>
@@ -80,7 +80,7 @@
 				<option value="age">Age</option>
 			</select>
 		</li>
-		
+
 		<input type="submit" value="Find" style="text-align:center">
 	</form>
 </div>
