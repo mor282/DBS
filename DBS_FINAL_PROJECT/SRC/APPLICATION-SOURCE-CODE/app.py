@@ -18,7 +18,27 @@ def search():
     languages = queries.get_languages()
     countries = queries.get_countries()
     genres = queries.get_genre()
-    return render_template('regular_search.html',lst=lst, languages=languages, countries=countries, genres=genres)
+    return render_template('regular_search.html',lst=lst, languages=languages, countries=countries,genres=genres)
+    
+@app.route("/search_results", methods=["POST"])
+def search_results():
+    members = request.form.get("number")
+    depart = request.form.get("depart")
+    agefrom = request.form.get("from")
+    ageto = request.form.get("to")
+    valid = ageto >= agefrom
+    if ageto < '0':
+        valid = False
+    gender = request.form.get("gender")
+    pop = request.form.get("pop")
+    lang = request.form.getlist("lang")
+    sizelang = len(lang)
+    country = request.form.get("country")
+    genre = request.form.getlist("genre")
+    sizegenre = len(genre)
+    orderby = request.form.get("orderby")
+    results,length = queries.get_all(members,depart,agefrom,ageto,gender,pop,lang,country,genre,orderby)
+    return render_template('search_res.html', members=members, lang=lang, sizelang=sizelang, valid=valid, genre=genre, sizegenre=sizegenre, results=results, length=length)
     
 @app.route("/profiles")
 def profiles():
