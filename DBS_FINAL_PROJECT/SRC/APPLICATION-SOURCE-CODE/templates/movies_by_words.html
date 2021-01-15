@@ -38,6 +38,8 @@
             <form action="{{url_for('movie_crew')}}" method="post">
               <select class = "form-control"  name = "movie_id">
                 <option value = "{{ movie[0] }}" > </option>
+              <select class = "form-control"  name = "movie_title">
+                <option value = "{{ movie[1] }}" > </option>
               <button name="movie_id" type="submit" value ="submit" >CLICK HERE TO CHECK THIS MOVIE CREW</button>
             </form>
           </div>
