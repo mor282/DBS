@@ -3,10 +3,11 @@
 <div style="color:black; text-align:center; font-size:20px;" >
 	    <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
 		{% if size2 == 0%}
-		<h1>There are no people matching your requirments, please try again! </h1>
+		<a style="text-align:center; font-size:30px;" href="{{url_for('profiles')}}">  There are no people matching your requirments, please click here try again! </a>
 		{% endif %}
 
 		{% if size2 > 0 %}
+		<a style="text-align:center; font-size:20px;" href="{{url_for( 'profiles' )}}">  CLICK HERE FOR NEW SEARCH </a>
 		<h1>Here is a list of {{size2}} people who match your requirments:</h1>
 
 		{% for name in lst2 %}

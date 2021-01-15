@@ -11,7 +11,8 @@
 
 	{% if size == 0 %}
 		<h1> No Results!</h1>
-		<h1> there are no crew members with that name, please enter a different name</h1>
+		<a style="text-align:center; font-size:30px;" href="{{url_for('profiles')}}">
+			  there are no crew members with that name, please click here and enter a different name</a>
 	{% endif %}
 
 </div>
