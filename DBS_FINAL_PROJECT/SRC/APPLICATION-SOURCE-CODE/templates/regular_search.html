@@ -3,17 +3,17 @@
 
 <div  style="font-size:25px; font-family:berlin sans fb; color:black;">
 	<link rel="stylesheet" type="text/css" href = "../static/s.css">
-	<p style="color:red; text-align:center;">Find your own crew now!</p>
+	<h2 style="color:red; text-align:center;">Find your own crew now!</h2>
 	<form action="/search_results" method="post" style="color:black">
 		<h1> Crew parameters: </h1>
 		<li>
 			<label>Number of crew members:</label>
-			<input type="number" id="number" value="1"> 
+			<input type="number" id="number" name="number" value="1"> 
 		</li>
 		<li>
 				<label>Department:</label>
-				<select name="department" id="department">
-					<option value="All">All</option>
+				<select name="depart" id="department">
+					<option value="all">All</option>
 							{% for l in lst[:-1] %}  <! ignoring null >
 					<option value="{{l[0]}}">{{l[0]}}</option>
 							{% endfor %}
@@ -21,11 +21,12 @@
 		</li>
 		<li>
 			<label>Age:</label>
-			<label>from: <input type="number" id="from" value="1"></label>
-			<label>to: <input type="number" id="to" value="100"></label> 
+			<label>from: <input type="number" id="from" name="from" value="1"></label>
+			<label>to: <input type="number" id="to" name="to" value="100"></label> 
 		</li>
+		<p style="color:red; font-size:20px;">* if you don't wish to filter by age, filter by 1 to 100</p>
 		<li>
-			<label>Gender: </label>
+			<label name="gender">Gender: </label>
 			<select>
 				<option value="both">Both</option>
 				<option value="0">Only males</option>
@@ -33,7 +34,7 @@
 			</select>
 		</li>
 		<li>
-			<label>Popularity: </label>
+			<label name="pop">Popularity: </label>
 			<select>
 				<option value="0">All</option>
 				<option value="1">1+</option>
@@ -50,9 +51,9 @@
 		</li>
 		<h1> Movie parameters: </h1>
 		<li><label>Language:</label><br>
-				<input type="checkbox" name="all" value="all">All</input>
+				<input type="checkbox" name="lang" value="all">All</input>
 						{% for lan in languages %}
-				<label><input type="checkbox" name="{{lan[0]}}" value="{{lan[0]}}">{{lan[0]}}
+				<label><input type="checkbox" name="lang" value="{{lan[0]}}">{{lan[0]}}
 				</input></label>
 						{% endfor %}
 		</li>  
@@ -65,15 +66,23 @@
 			</select>
 		</li>
 		<li><label>Genre:</label><br>
-				<input type="checkbox" name="all" value="all">All</input>
+				<input type="checkbox" name="genre" value="all">All</input>
 						{% for g in genres %}
-				<label><input type="checkbox" name="{{g[0]}}" value="{{g[0]}}">{{g[0]}}
+				<label><input type="checkbox" name="genre" value="{{g[0]}}">{{g[0]}}
 				</input></label>
 						{% endfor %}
-		</li> 
-
-		<br><input type="submit" value="Find">
-	  </form>
+		</li>
+		<h1>General</h1>
+		<li><label>Order by: </label>
+			<select name="orderby">
+				<option value="name">Name</option>
+				<option value="popularity">Popularity</option>
+				<option value="age">Age</option>
+			</select>
+		</li>
+		
+		<input type="submit" value="Find" style="text-align:center">
+	</form>
 </div>
 
 {% endblock %}
