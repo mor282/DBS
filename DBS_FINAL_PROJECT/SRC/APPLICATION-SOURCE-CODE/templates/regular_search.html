@@ -7,10 +7,6 @@
 	<form action="/search_results" method="post" style="color:black">
 		<h1> Crew parameters: </h1>
 		<li>
-			<label>Number of crew members:</label>
-			<input type="number" id="number" name="number" value="1">
-		</li>
-		<li>
 				<label>Department:</label>
 				<select name="depart" id="department">
 					<option value="all">All</option>
@@ -22,9 +18,9 @@
 		<li>
 			<label>Age:</label>
 			<label>from: <input type="number" id="from" name="from" value="1"></label>
-			<label>to: <input type="number" id="to" name="to" value="100"></label>
+			<label>to: <input type="number" id="to" name="to" value="99"></label>
 		</li>
-		<p style="color:red; font-size:20px;">* if you don't wish to filter by age, filter by 1 to 100</p>
+		<p style="color:red; font-size:20px;">* if you don't wish to filter by age, filter by 1 to 99</p>
 		<li>
 			<label name="gender">Gender: </label>
 			<select name="gender">
@@ -58,8 +54,8 @@
 						{% endfor %}
 		</li>
 		<li><label>Country:</label>
-			<select name="country" id="cauntry">
-				<option value="All">All</option>
+			<select name="country" id="country">
+				<option value="all">All</option>
 						{% for c in countries %}
 				<option value="{{c[0]}}">{{c[0]}}</option>
 						{% endfor %}

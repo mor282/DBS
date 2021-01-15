@@ -1,4 +1,4 @@
-{% extends "regular_search.html" %}
+{% extends "layout.html" %}
 {%block body%}
 <div style="font-size:25px; font-family:berlin sans fb; color:black;"> <!errors>
 	    <link rel="stylesheet" type="text/css" href = "../static/s.css">
@@ -19,9 +19,6 @@
 		</style>
 		<br>
 		<a class="two" href="{{url_for('search')}}">Back</a>
-		{% if members < '1' %}
-		<li style="color:red;">number of crew members needs to be at least 1!</li>
-		{% endif %}
 		
 		{% if valid == False %}
 		<li style="color:red;">please enter a valid age!</li>
@@ -37,16 +34,28 @@
 </div>
 
 <div style="font-size:25px; font-family:berlin sans fb; color:black;"> <!valid input>
-	{% if members > '0' and valid==True and sizelang > 0 and sizegenre > 0 %}
-	<p>valid!!</p>
-	{% endif %}
+	{% if valid==True and sizelang > 0 and sizegenre > 0 %}
+	{% block content %}
 	
-	{{length}}
+		{% if length == 0 %}
+		<li style="color:red;">We couldn't find any results. Your search might be too narrow, please try again!</li>
+		{% endif %}
+		
+		{% if length > 0 %}
+		{% for person in results %}
 
-	{% for person in results %}
-	<p>{{person[2]}}</p>
-	{%endfor%}
-	
-	
+			<p style="text-align:center;"><img src={{person[4]}} width="150" height="200">
+			<p style="font-size:30px; text-align:center">{{person[0]}}</p>
+			<p style="font-size:20px; text-align:center">Biography: {{person[1]}}</p></p>
+			<p style="font-size:20px; text-align:center">Popularity: {{person[2]}} | Age: {{person[3]}}</p></p>
+
+			
+
+		
+		{% endfor %}
+		{% endif %}
+		
+	{% endblock content %}
+	{% endif %}
 </div>
 {% endblock %}
