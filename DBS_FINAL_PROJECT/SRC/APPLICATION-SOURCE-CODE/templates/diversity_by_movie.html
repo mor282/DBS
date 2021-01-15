@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load("current", {
+    packages: ["corechart"]
+  });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var listbox = document.getElementById("chart");
+      var selIndex = listbox.selectedIndex;
+      var selValue = listbox.options[selIndex].value;
+      var selText = listbox.options[selIndex].text;
+      //console.log(selValue);
+      var data = google.visualization.arrayToDataTable([
+        ['Gender', 'Percentage'],
+        ['Female', 100 * selValue], // Must be a number. Convert the string to number by using «*1».
+        ['Male', 100 - (100 * selValue)]
+
+      ]);
+      var options = {
+        title: selText,
+        colors: ['#AF7AC5', '#5DADE2']
+      };
+
+      var chart = new google.visualization.PieChart(
+        document.getElementById('piechart')
+      );
+      chart.draw(data, options);
+    }
+
+</script>
+<link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+<div class = "container center">
+  <h3 style = "color:white; text-align: center;">Select movie and we find out the Percentage of women on the movie crew </h3>
+  <div class="form-group row">
+    <select id="chart" name='select1' onchange="drawChart()">
+      <option value="" disabled selected hidden>Select movie</option>
+      {% for movie in movies_lst %}
+        <option value = "{{ movie[2] }}" > {{ movie[1] }} </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="center" id="piechart" style="width:70%; height: 180px;"></div>
+</div>
+<div style="text-align:center color:white;">
+  <small id="passwordHelpInline" style="text-align:center; color:white;">
+  Full Disclosure: For the vast majority of profiles in our database the gender field is undefined (not in the meaning of undefined gender but in the meaning of no data on their gender)<br/>
+  And the chart represents the statistics of profiles with defined gender
+  </small>
+</div>
+{% endblock %}
