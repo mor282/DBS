@@ -82,6 +82,15 @@ def get_all_roles():
     cnx.close()
     return lst
 
+def get_roles_descriptions():
+    """connect to db, return list of all roles in our database"""
+
+    cnx,cur = connect_to_db()             #get connection with db
+    cur.execute("select distinct role, job_description from department where job_description is not null ")
+    lst = cur.fetchall()
+    cur.close()
+    cnx.close()
+    return lst
 
 def get_movie(movie_id):
     """connect to db, return list of all movies in our database"""
