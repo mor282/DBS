@@ -5,7 +5,7 @@ import mysql.connector
 from mysql.connector import errorcode
 
 
-#getters______________________________________________________________________________________________________
+#db connection--------------------------------------------------------------------------------------------
 
 def connect_to_db():
     """
@@ -37,6 +37,8 @@ def connect_to_db():
     cur = cnx.cursor(buffered = True)
     return cnx,cur
 
+#-------------------------------------------------------------------------------------------------------------
+#getters______________________________________________________________________________________________________
 
 def get_countries():
     """connect to db, return list of all countries in our database"""
@@ -196,9 +198,10 @@ def get_profiles_by_role_and_movie(role,movie_id):
     cnx,cur = connect_to_db()
     cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
                 "FROM profile, movie_crew "
-                "WHERE movie_crew.profile_id = profile.profile_id AND "
-                "movie_crew.movie_id = " + str(movie_id) + " AND "
-                "movie_crew.role LIKE '%" + role + "%'")
+                "WHERE movie_crew.movie_id = " + str(movie_id) + " AND "+
+                "movie_crew.role LIKE '%" + role + "%' AND "
+                "movie_crew.profile_id = profile.profile_id"
+                )
     lst = cur.fetchall()
     cur.close()
     cnx.close()
