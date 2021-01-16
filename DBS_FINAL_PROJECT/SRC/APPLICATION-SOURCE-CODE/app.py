@@ -26,8 +26,6 @@ def search_results():
     agefrom = request.form.get("from")
     ageto = request.form.get("to")
     valid = (ageto >= agefrom) 
-    if ageto < '0':
-        valid = False
     gender = request.form.get("gender")
     pop = request.form.get("pop")
     lang = request.form.getlist("lang")
@@ -37,7 +35,7 @@ def search_results():
     sizegenre = len(genre)
     orderby = request.form.get("orderby")
     results,length = queries.get_all(depart,agefrom,ageto,gender,pop,lang,country,genre,orderby)
-    return render_template('search_res.html', lang=lang, sizelang=sizelang, valid=valid, genre=genre, sizegenre=sizegenre, results=results, length=length)
+    return render_template('search_res.html', lang=lang, sizelang=sizelang, valid=valid, genre=genre, sizegenre=sizegenre, results=results, length=length, orderby=orderby)
     
 @app.route("/profiles")
 def profiles():
