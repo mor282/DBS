@@ -57,7 +57,7 @@ def profiles():
 
     #get the list of tuples of all profiles in our db, each tuple include all of the profiles data.
     lst = queries.get_profile_names_and_photos()
-    
+
     #get a list of the roles existing in our db who have a description, return the role and the description
     lst2 = queries.get_roles_descriptions()
     return render_template('profiles.html', roles=roles, lst=lst, lst2=lst2)
@@ -238,4 +238,4 @@ def build_diversity():
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug = True) #host = '0.0.0.0', port = 40042, debug =False
