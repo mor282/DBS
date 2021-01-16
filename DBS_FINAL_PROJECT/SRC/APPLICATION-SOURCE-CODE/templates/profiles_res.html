@@ -1,22 +1,41 @@
 {% extends "layout.html" %}
 {%block body%}
-<div>
+<div style="color:white; text-align:center; font-size:20px; font-family:berlin sans fb;" >
 	    <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+				<style>
+		a.two:link, a:visited {
+		  background-color: black;
+		  color: white;
+		  padding: 14px 25px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		}
+
+		a.two:hover, a:active {
+		  color:black;
+		  background-color: #ddd;
+		}
+		</style>
+		<br>
+		<a class="two" href="{{url_for('profiles')}}">Click here to go back</a>
 		{% if size2 == 0%}
-		<h1>There are no people matching your requirments, please try again! </h1>
+		<a style="text-align:center; font-size:30px;">  There are no people matching your requirments! </a>
 		{% endif %}
-		
+
 		{% if size2 > 0 %}
-		<h1>Here is a list of {{size2}} people who match your requirments:</h1>
-		
+
+		<h1 style="font-size:30px">Here is a list of {{size2}} people who match your requirments:</h1>
+		<br>
 		{% for name in lst2 %}
-			<p style="font-size:30px; font-family:castellar; text-align:center" class="popup" onclick="myFunction()">{{name[0]}}
-			  <span class="popuptext" id="myPopup" style="font-family:candara light; font-size:20px;">{{name[2]}}</span>
-			  <h1><img src={{name[1]}} width="150" height="200"></h1>
-			</p>
-		
+			<p style="font-size:25px; text-align:center" class="popup" onclick="myFunction()">{{name[0]}}</p>
+			<p><img src={{name[1]}} width="150" height="200"></p>
+			<p style="font-size:20px; text-align:center">Biography: {{name[2]}}</p>
+
+
 		{% endfor %}
 		{% endif %}
+
 </div>
 
 {% endblock %}
