@@ -163,10 +163,10 @@ def get_profiles_by_role_and_counrty(role,country):
     cnx,cur = connect_to_db()
     cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "+
                 "FROM profile, movie_crew, locations "
-                "WHERE movie_crew.profile_id = profile.profile_id AND "
-                "movie_crew.movie_id = locations.movie_id AND "
-                "locations.country LIKE '%" + country + "%' AND "
-                "movie_crew.role LIKE '%" + role + "%'")
+                "WHERE locations.country LIKE '%" + country + "%' AND movie_crew.role LIKE '%" + role + "%' AND "
+                "movie_crew.profile_id = profile.profile_id AND "
+                "movie_crew.movie_id = locations.movie_id")
+
     lst = cur.fetchall()
     cur.close()
     cnx.close()
