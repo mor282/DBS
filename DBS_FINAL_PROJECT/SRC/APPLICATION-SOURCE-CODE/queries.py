@@ -316,8 +316,9 @@ def get_movie_crew(movie_id):
     cnx,cur = connect_to_db()
     cur.execute("SELECT DISTINCT profile.profile_id, name, gender, age, main_department, popularity, biography, photo_link "
                 "FROM profile, movie_crew "
-                "WHERE movie_crew.profile_id = profile.profile_id AND "
-                'movie_crew.movie_id = ' + str(movie_id))
+                "WHERE movie_crew.movie_id =" + str(movie_id) + " AND "
+                "movie_crew.profile_id = profile.profile_id"
+                )
     lst = cur.fetchall()
     cur.close()
     cnx.close()
