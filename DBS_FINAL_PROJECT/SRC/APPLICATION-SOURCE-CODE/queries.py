@@ -130,18 +130,11 @@ def get_profile_by_search(role,gender,pop,orderby):
     
     cnx,cur = connect_to_db()             #get connection with db
 
-    if (orderby == '1'):
-        orderby =" ORDER by popularity LIMIT 100"
-    if (orderby == '2'):
-         orderby =" ORDER by name LIMIT 100"
-    if (orderby == '3'):
-         orderby =" ORDER by age LIMIT 100"
-
     query = "" 
     
     if gender =="All" and not role == "All":
         values = (role, pop)
-        query = "SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity >= %s"
 
             
     if not gender == "All" and role =="All":
@@ -155,13 +148,14 @@ def get_profile_by_search(role,gender,pop,orderby):
     if gender=="All" and role=="All":
         values = (pop,)
         query = "SELECT name, photo_link, biography FROM profile WHERE popularity >= %s"
-        
+       
+    query = query + " and (age is null or age < 99 or age = 99)"
     if (orderby == '1'):
-        query = query + " ORDER by popularity LIMIT 100"
+        query = query + " ORDER by popularity DESC LIMIT 100"
     if (orderby == '2'):
          query = query + " ORDER by name LIMIT 100"
     if (orderby == '3'):
-         query = query + " ORDER by age LIMIT 100"
+         query = query + " ORDER by age DESC LIMIT 100"
          
     cur.execute(query,values)    
     lst = cur.fetchall()
