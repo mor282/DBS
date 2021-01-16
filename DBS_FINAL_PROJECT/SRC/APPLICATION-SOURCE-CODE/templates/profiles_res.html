@@ -28,9 +28,10 @@
 		<h1 style="font-size:30px">Here is a list of {{size2}} people who match your requirments:</h1>
 		<br>
 		{% for name in lst2 %}
-			<p style="font-size:25px; text-align:center" class="popup" onclick="myFunction()">{{name[0]}}</p>
+			<p style="font-size:25px; text-align:center">{{name[0]}}</p>
 			<p><img src={{name[1]}} width="150" height="200"></p>
 			<p style="font-size:20px; text-align:center">Biography: {{name[2]}}</p>
+		  <p style="font-size:20px; text-align:center">Popularity: {{name[4]}} | Age: {{name[3]}} | Main department: {{name[5]}}</p></p>
 
 
 		{% endfor %}

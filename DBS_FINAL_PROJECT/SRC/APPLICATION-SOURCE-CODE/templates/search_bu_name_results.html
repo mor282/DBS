@@ -1,18 +1,37 @@
 {% extends "layout.html" %}
 {%block body%}
-<div style="color:black; text-align:center; font-size:20px;">
+<div style="color:white; text-align:center; font-size:20px; font-family:berlin sans fb;">
 	    <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
 
+		<style>
+		a.two:link, a:visited {
+		  background-color: black;
+		  color: white;
+		  padding: 14px 25px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		}
+
+		a.two:hover, a:active {
+		  color:black;
+		  background-color: #ddd;
+		}
+		</style>
+		<br>
+		<a class="two" href="{{url_for('profiles')}}">Click here to go back</a>
 	 {% for name in lst %}
-		<p style="font-size:30px; font-family:castellar; text-align:center">{{name[0]}}
+		<p style="font-size:30px; text-align:center">{{name[0]}}
 		  <h1><img src={{name[1]}} width="150" height="200"></h1>
+		  <p style="font-size:20px; text-align:center">Biography: {{name[2]}}</p>
+		  <p style="font-size:20px; text-align:center">Popularity: {{name[4]}} | Age: {{name[3]}} | Main department: {{name[5]}}</p></p>
 		</p>
 	{% endfor %}
-
+	
 	{% if size == 0 %}
 		<h1> No Results!</h1>
-		<a style="text-align:center; font-size:30px;" href="{{url_for('profiles')}}">
-			  there are no crew members with that name, please click here and enter a different name</a>
+		<h1> there are no crew members with that name. </h1>
+		<h1> please enter a different name!</h1>
 	{% endif %}
 
 </div>
