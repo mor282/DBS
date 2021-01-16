@@ -1,6 +1,5 @@
-from flask import Flask, render_template, redirect,json,jsonify, url_for, request,session
+from flask import Flask, render_template, redirect,json,jsonify, url_for, request
 import queries
-import datetime
 
 app = Flask(__name__)
 
