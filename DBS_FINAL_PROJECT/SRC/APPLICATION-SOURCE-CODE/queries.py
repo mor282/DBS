@@ -234,7 +234,7 @@ def get_female_diversity_movies_lst():
 def get_profile_by_name(name):
 
     cnx,cur = connect_to_db()             #get connection with db
-    cur.execute("SELECT name, photo_link, biography FROM profile WHERE name LIKE '%"+name+"%' limit 100")
+    cur.execute("SELECT name, photo_link, biography, age, popularity, main_department FROM profile WHERE name LIKE '%"+name+"%' limit 100")
     lst = cur.fetchall()
     size = len(lst)
     cur.close()
@@ -260,20 +260,20 @@ def get_profile_by_search(role,gender,pop,orderby):
 
     if gender =="All" and not role == "All":
         values = (role, pop)
-        query = "SELECT DISTINCT name, photo_link, biography, age, popularity FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity >= %s"
 
 
     if not gender == "All" and role =="All":
         values = (gender, pop)
-        query = "SELECT name, photo_link, biography FROM profile WHERE gender = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department  WHERE gender = %s and popularity >= %s"
 
     if not gender =="All" and not role=="All":
         values = (gender, role, pop)
-        query = "SELECT name, photo_link, biography FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and gender = %s and department.role = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and gender = %s and department.role = %s and popularity >= %s"
 
     if gender=="All" and role=="All":
         values = (pop,)
-        query = "SELECT name, photo_link, biography FROM profile WHERE popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile WHERE popularity >= %s"
 
     query = query + " and (age is null or age < 99 or age = 99)"
     if (orderby == '1'):
@@ -340,7 +340,7 @@ def get_all(depart,agefrom,ageto,gender,pop,lang,country,genre,orderby):
         return lst,-1
 
     list = []
-    query = "SELECT DISTINCT profile.name, profile.biography, profile.popularity, profile.age, profile.photo_link FROM profile, movie_crew, department, movies, locations, genres WHERE"
+    query = "SELECT DISTINCT profile.name, profile.biography, profile.popularity, profile.age, profile.photo_link, profile.main_department FROM profile, movie_crew, department, movies, locations, genres WHERE"
 
     if agefrom > '1' or ageto < '99':
         query = query + " age > %s and age < %s and"
@@ -387,7 +387,7 @@ def get_all(depart,agefrom,ageto,gender,pop,lang,country,genre,orderby):
     if (orderby == '2'):
         query = query + " ORDER by name LIMIT 100"
     if (orderby == '3'):
-        query = query + " ORDER by age LIMIT 100"
+        query = query + " ORDER by age DESC LIMIT 100"
 
     values = tuple(list)
     cur.execute(query,values)
