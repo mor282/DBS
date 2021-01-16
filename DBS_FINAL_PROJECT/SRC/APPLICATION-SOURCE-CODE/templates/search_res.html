@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{%block body%}
+<div style="font-size:25px; font-family:berlin sans fb; color:black;"> <!errors>
+	    <link rel="stylesheet" type="text/css" href = "../static/s.css">
+		<style>
+		a.two:link, a:visited {
+		  background-color: black;
+		  color: white;
+		  padding: 14px 25px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		}
+
+		a.two:hover, a:active {
+		  color:black;
+		  background-color: #ddd;
+		}
+		</style>
+		<br>
+		<a class="two" href="{{url_for('search')}}">Back</a>
+		
+		{% if valid == False %}
+		<li style="color:red;">please enter a valid age!</li>
+		{% endif %}
+		
+		{% if sizelang==0 %}
+		<li style="color:red;">please choose a language!</li>
+		{% endif %}
+		
+		{% if sizegenre==0 %}
+		<li style="color:red;">please choose a genre!</li>
+		{% endif %}
+</div>
+
+<div style="font-size:25px; font-family:berlin sans fb; color:black;"> <!valid input>
+	{% if valid==True and sizelang > 0 and sizegenre > 0 %}
+	
+		{% if length == 0 %}
+		<li style="color:red;">We couldn't find any results. Your search might be too narrow, please try again!</li>
+		{% endif %}
+		
+		{% if length > 0 %}
+
+		{% for person in results %}
+
+			<p style="text-align:center;"><img src={{person[4]}} width="150" height="200">
+			<p style="font-size:30px; text-align:center">{{person[0]}}</p>
+			<p style="font-size:20px; text-align:center">Biography: {{person[1]}}</p></p>
+			<p style="font-size:20px; text-align:center">Popularity: {{person[2]}} | Age: {{person[3]}}</p></p>
+
+		{% endfor %}
+		{% endif %}
+
+	{% endif %}
+</div>
+{% endblock %}

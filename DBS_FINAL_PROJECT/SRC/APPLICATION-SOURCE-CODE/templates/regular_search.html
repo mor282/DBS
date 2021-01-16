@@ -1,0 +1,84 @@
+{% extends "layout.html" %}}
+{% block body %}
+
+<div  style="font-size:25px; font-family:berlin sans fb; color:black;">
+	<link rel="stylesheet" type="text/css" href = "../static/s.css">
+	<h2 style="color:red; text-align:center;">Find your own crew now!</h2>
+	<form action="/search_results" method="post" style="color:black">
+		<h1> Crew parameters: </h1>
+		<li>
+				<label>Department:</label>
+				<select name="depart" id="department">
+					<option value="all">All</option>
+							{% for l in lst[:-1] %}  <! ignoring null >
+					<option value="{{l[0]}}">{{l[0]}}</option>
+							{% endfor %}
+				</select>
+		</li>
+		<li>
+			<label>Age:</label>
+			<label>from: <input type="number" id="from" name="from" value="1" min="1" max="99"></label>
+			<label>to: <input type="number" id="to" name="to" value="99" min="1" max="99"></label>
+		</li>
+		<p style="color:red; font-size:20px;">* if you don't wish to filter by age, filter by 1 to 99</p>
+		<li>
+			<label name="gender">Gender: </label>
+			<select name="gender">
+				<option value="both">Both</option>
+				<option value="0">Only males</option>
+				<option value="1">Only females</option>
+			</select>
+		</li>
+		<li>
+			<label name="pop">Popularity: </label>
+			<select name="pop">
+				<option value="0">All</option>
+				<option value="1">1+</option>
+				<option value="2">2+</option>
+				<option value="3">3+</option>
+				<option value="4">4+</option>
+				<option value="5">5+</option>
+				<option value="6">6+</option>
+				<option value="7">7+</option>
+				<option value="8">8+</option>
+				<option value="9">9+</option>
+				<option value="10">10+</option>
+			</select>
+		</li>
+		<h1> Movie parameters: </h1>
+		<li><label>Language:</label><br>
+				<input type="checkbox" name="lang" value="all">All</input>
+						{% for lan in languages %}
+				<label><input type="checkbox" name="lang" value="{{lan[0]}}">{{lan[0]}}
+				</input></label>
+						{% endfor %}
+		</li>
+		<li><label>Country:</label>
+			<select name="country" id="country">
+				<option value="all">All</option>
+						{% for c in countries %}
+				<option value="{{c[0]}}">{{c[0]}}</option>
+						{% endfor %}
+			</select>
+		</li>
+		<li><label>Genre:</label><br>
+				<input type="checkbox" name="genre" value="all">All</input>
+						{% for g in genres %}
+				<label><input type="checkbox" name="genre" value="{{g[0]}}">{{g[0]}}
+				</input></label>
+						{% endfor %}
+		</li>
+		<h1>General</h1>
+		<li><label>Order by: </label>
+			<select name="orderby" id="orderby">
+				<option value="1">Popularity</option>
+				<option value="2">Name</option>
+				<option value="3">Age</option>
+			</select>
+		</li>
+
+		<input type="submit" value="Find" style="text-align:center">
+	</form>
+</div>
+
+{% endblock %}
