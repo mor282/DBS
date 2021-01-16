@@ -260,7 +260,7 @@ def get_profile_by_search(role,gender,pop,orderby):
 
     if gender =="All" and not role == "All":
         values = (role, pop)
-        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and department.role = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile, movie_crew, department WHERE department.role = %s and popularity >= %s and profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role"
 
 
     if not gender == "All" and role =="All":
@@ -269,7 +269,7 @@ def get_profile_by_search(role,gender,pop,orderby):
 
     if not gender =="All" and not role=="All":
         values = (gender, role, pop)
-        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile, movie_crew, department WHERE profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role and gender = %s and department.role = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile, movie_crew, department WHERE gender = %s and department.role = %s and popularity >= %s and profile.profile_id = movie_crew.profile_id and movie_crew.role = department.role"
 
     if gender=="All" and role=="All":
         values = (pop,)
@@ -289,7 +289,6 @@ def get_profile_by_search(role,gender,pop,orderby):
     cur.close()
     cnx.close()
     return lst,size
-
 
 #text-query - find movie by keywords------------------------------------------------------------------
 def get_movies_by_words(words):
