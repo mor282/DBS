@@ -35,7 +35,6 @@
 
 <div style="font-size:25px; font-family:berlin sans fb; color:black;"> <!valid input>
 	{% if valid==True and sizelang > 0 and sizegenre > 0 %}
-	{% block content %}
 	
 		{% if length == 0 %}
 		<li style="color:red;">We couldn't find any results. Your search might be too narrow, please try again!</li>
@@ -49,13 +48,9 @@
 			<p style="font-size:20px; text-align:center">Biography: {{person[1]}}</p></p>
 			<p style="font-size:20px; text-align:center">Popularity: {{person[2]}} | Age: {{person[3]}}</p></p>
 
-			
-
-		
 		{% endfor %}
 		{% endif %}
-		
-	{% endblock content %}
+
 	{% endif %}
 </div>
 {% endblock %}
