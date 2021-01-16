@@ -57,12 +57,10 @@ def profiles():
 
     #get the list of tuples of all profiles in our db, each tuple include all of the profiles data.
     lst = queries.get_profile_names_and_photos()
-    
-    #get a list of the roles existing in our db who have a description, return a list of roles and their descriptions
-    lst2 = queries.get_roles_descriptions()
-    
-    return render_template('profiles.html', roles=roles, lst=lst, lst2=lst2)
 
+    #get a list of the roles existing in our db who have a description, return the role and the description
+    lst2 = queries.get_roles_descriptions()
+    return render_template('profiles.html', roles=roles, lst=lst, lst2=lst2)
 
 
 #get the users input from @app.route("/profiles") when Choose to search by Name.
@@ -75,6 +73,7 @@ def search_profile_by_name():
 
     #get list of tuples of relevant profiles with Name = name, And the length of the list.
     lst,size = queries.get_profile_by_name(name)
+
     return render_template("search_bu_name_results.html",lst=lst,size=size)
 
 
@@ -226,6 +225,7 @@ def movie_crew():
     #get the choosen movie's movie_id and title from the form button @app.route('/movies_by_words')
     movie_id = request.form.get('movie_id')
     title = request.form.get('movie_title')
+
     #get list of tuples of relevant all profiles.
     res =  queries.get_movie_crew(movie_id)
     return render_template("movie_crew.html", res = res,title=title)

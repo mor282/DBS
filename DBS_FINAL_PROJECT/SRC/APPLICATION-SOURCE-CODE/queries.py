@@ -100,7 +100,7 @@ def get_movie(movie_id):
     lst = cur.fetchone()
     cur.close()
     cnx.close()
-    return lst
+    return lst,len(lst)
 
 
 def get_main_department():
@@ -181,9 +181,11 @@ def get_profiles_by_role_and_counrty(role,country):
     cnx.close()
     return lst
 
+
 #-----------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------
 #profiles by movies-----------------------------------------------------------------------------------------
+
 def get_movie_roles(movie_id):
     """connect to db, return list of all roles in specific movie"""
 
@@ -274,7 +276,7 @@ def get_profile_by_search(role,gender,pop,orderby):
 
     if not gender == "All" and role =="All":
         values = (gender, pop)
-        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department  WHERE gender = %s and popularity >= %s"
+        query = "SELECT DISTINCT name, photo_link, biography, age, popularity, main_department FROM profile WHERE gender = %s and popularity >= %s"
 
     if not gender =="All" and not role=="All":
         values = (gender, role, pop)
@@ -298,6 +300,7 @@ def get_profile_by_search(role,gender,pop,orderby):
     cur.close()
     cnx.close()
     return lst,size
+
 
 #text-query - find movie by keywords------------------------------------------------------------------
 def get_movies_by_words(words):
