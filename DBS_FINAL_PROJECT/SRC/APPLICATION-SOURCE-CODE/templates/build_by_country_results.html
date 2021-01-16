@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('Search').disabled = true;
+  document.getElementById('country_sel').addEventListener('change' , () => {
+    document.getElementById('Search').disabled = false;
+    const country = document.querySelector('#country_sel').value;
+    var select = document.getElementById("role");
+    var length = select.options.length;
+    for (i = length-1; i >= 0; i--) {
+      select.options[i] = null;
+    }
+    fetch('build_by_country/' + country , {method: 'POST' }).then(response => {
+      response.json().then(data => {
+        for (role of data.country_roles){
+          var para = document.createElement("OPTION");
+          para.setAttribute("value", role.id)
+          var t = document.createTextNode( role.id );
+          para.appendChild(t);
+          document.getElementById('role').appendChild(para);
+        }
+      });
+    });
+  });
+});
+</script>
+
+<div class = "container">
+  <link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+  <h3 style = "color:white; text-align: center;">select role and country and we will find the person</h3>
+  <form action = "/build_by_country_results" method = "post" >
+    <div class="form-group row">
+      <div class="col-4">
+        <select class = "form-control" id = 'country_sel' name = "country">
+          <option value="" disabled selected hidden>Select country</option>
+          {% for country in country_lst %}
+            <option value = "{{ country[0] }}" > {{ country[0] }} </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-4" >
+        <select class = "form-control" id="role" name = "role" ></select>
+      </div>
+      <div class="col-1">
+        <div class="form-group">
+          <button class="btn btn-outline-info" id='Search' >Search</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+{% block content %}
+
+<div style="color:black; text-align:center; font-size:20px;">
+		{% for name in res %}
+		<p style="font-size:30px; font-family:castellar; text-align:center"> {{name[1]}}<p>
+		<h1><img src={{name[7]}} width="150" height="200"></h1>
+		{% endfor %}
+		<script>
+			h1, p {
+			display: inline;
+      }
+		</script>
+</div>
+{% endblock %}

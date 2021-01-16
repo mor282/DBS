@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href = "../static/profiles.css">
+<div style="color:white; text-align:center; font-size:20px;">
+	<p style="font-size:30px; font-family:castellar;">Find movies by key words</p>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      alert("INVALID INPUT!!! Please look at the instructions and try again");
+      document.querySelector('#submit').disabled = true;
+
+      document.querySelector('#words').onkeyup = () => {
+        if (document.querySelector('#words').value.length > 0)
+          document.querySelector('#submit').disabled = false;
+        else
+          document.querySelector('#submit').disabled = true;
+      };
+    });
+  </script>
+	<div class="container">
+		<p class="lead"> Type your words (with alphabetical characters only and no spaces) and we will give you a list of movies on our database that their overview includes those words. </p>
+		<form name="myForm" action='/movies_by_words' method = "post">
+		  <label for="name" style="font-family:candara light;">ENTER WORDS SEPERATED BY A COMMA (,):</label>
+		  <input type="text" id="words" name="words" placeholder="words" autocomplete="off" size = '50'>
+		  <input type="submit" id = "submit" value="Search">
+		</form>
+		<small id="passwordHelpInline" class="text-muted">
+		For example: Drama, love, home
+		</small>
+		<style>
+		label {
+			display: block;
+		}
+		</style>
+	</div>
+</div>
+
+
+{% endblock %}

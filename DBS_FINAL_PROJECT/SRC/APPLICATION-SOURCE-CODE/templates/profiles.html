@@ -1,4 +1,4 @@
-{% extends "layout.html" %}}
+{% extends "layout.html" %}
 {% block body %}
 
 <div>
@@ -13,17 +13,17 @@
 	  <input type="text" id="fname" name="name">
 	  <input type="submit" value="Search">
 	</form>
-	
+
 	<p style=" font-size:30px">OR</p>
 
-	<form action="/profiles_results" method="post">
+	<form action="/profiles_res" method="post">
 	  <label for="gender">Gender:</label>
 	  <select name="gender" id="gender">
 			<option value="All">All</option>
 			<option value="0">Male</option>
 			<option value="1">Female</option>
 	  </select>
-	  
+
 	  <label>Profession:</label>
 	  <select id="role" name="role">
 			<option value="All">All</option>
@@ -31,7 +31,7 @@
             <option value = "{{r[0]}}" > {{r[0]}} </option>
 				{% endfor %}
 	  </select>
-	  
+
 	  <label>Popularity:</label>
 	  <select id="pop" name="pop">
 	    <option value="0">All</option>
@@ -47,17 +47,27 @@
 		<option value="10">10+</option>
 		<option value="15">15+</option>
 	  </select>
-	  
+
 	  <br><br>
-	  
+
 	  <label for="orderby">Order by:</label>
 	  <select name="orderby" id="orderby">
 		<option value="1">Popularity</option>
 		<option value="3">Age</option>
 		<option value="2">Name</option>
 	  </select>
-  
-  <input type="submit" value="Search">
-</form>
+
+	  <input type="submit" value="Search">
+
+	<br><br>
+	<h1>Job descriptions:</h1>
+	{% for j in lst2 %} 
+
+	<li style="font-size:25px; text-align:center">{{j[0]}}:</li>
+	<p style="font-size:20px">{{j[1]}}</p><br>
+	{% endfor %}
+		</form>
+
+</div>
 
 {% endblock %}
