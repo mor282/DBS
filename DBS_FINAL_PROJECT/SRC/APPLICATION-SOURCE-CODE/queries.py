@@ -18,9 +18,9 @@ def connect_to_db():
     config = {
         'user': 'DbMysql08',
         'password': 'DbMysql08',
-        'host': '127.0.0.1',                    #use 'localhost' or '127.0.0.1' if running from home
+        'host': '127.0.0.1',                    #use 'host' :'mysqlsrv1.cs.tau.ac.il'
         'database': 'DbMysql08',
-        'port': 3305,                           #use your forwarding port if running from home
+        'port': 3305,                           #'port': 3306
         'raise_on_warnings': True,
     }
 
