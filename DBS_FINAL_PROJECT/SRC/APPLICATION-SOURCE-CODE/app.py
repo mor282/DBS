@@ -57,7 +57,12 @@ def profiles():
 
     #get the list of tuples of all profiles in our db, each tuple include all of the profiles data.
     lst = queries.get_profile_names_and_photos()
-    return render_template('profiles.html', roles=roles, lst=lst)
+    
+    #get a list of the roles existing in our db who have a description, return a list of roles and their descriptions
+    lst2 = queries.get_roles_descriptions()
+    
+    return render_template('profiles.html', roles=roles, lst=lst, lst2=lst2)
+
 
 
 #get the users input from @app.route("/profiles") when Choose to search by Name.
