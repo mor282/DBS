@@ -221,7 +221,7 @@ def movie_crew():
     #get the choosen movie's movie_id and title from the form button @app.route('/movies_by_words')
     movie_id = request.form.get('movie_id')
     title = request.form.get('movie_title')
-
+    print(title)
     #get list of tuples of relevant all profiles.
     res =  queries.get_movie_crew(movie_id)
     return render_template("movie_crew.html", res = res,title=title)
