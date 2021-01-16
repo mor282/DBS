@@ -17,6 +17,9 @@ def index():
 
     return render_template('index.html')
 
+#_________________________________________________________________________________________
+#this section is associated to search profiles by Name, Gender, Profession and popularity.
+
 @app.route("/search")
 def search():
     lst = queries.get_department()
@@ -24,6 +27,7 @@ def search():
     countries = queries.get_countries()
     genres = queries.get_genre()
     return render_template('regular_search.html',lst=lst, languages=languages, countries=countries,genres=genres)
+
 
 @app.route("/search_results", methods=["POST"])
 def search_results():
@@ -42,8 +46,6 @@ def search_results():
     results,length = queries.get_all(depart,agefrom,ageto,gender,pop,lang,country,genre,orderby)
     return render_template('search_res.html', lang=lang, sizelang=sizelang, valid=valid, genre=genre, sizegenre=sizegenre, results=results, length=length, orderby=orderby)
 
-#_________________________________________________________________________________________
-#this section is associated to search profiles by Name, Gender, Profession and popularity.
 
 #Search crew profiles by Name or by gender,Profession and popularity.
 @app.route("/profiles")
@@ -224,7 +226,7 @@ def movie_crew():
     res =  queries.get_movie_crew(movie_id)
     return render_template("movie_crew.html", res = res,title=title)
 
-
+#show the percentage of male and female crew members in films
 @app.route("/diversity_by_movie")
 def build_diversity():
     movies_lst = queries.get_female_diversity_movies_lst()
